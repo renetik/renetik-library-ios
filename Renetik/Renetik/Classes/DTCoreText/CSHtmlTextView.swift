@@ -12,6 +12,7 @@ import DTCoreText
 import DTCoreText.DTAttributedTextView
 import DTCoreText.DTCoreTextLayoutFrame
 import IDMPhotoBrowser
+import SKPhotoBrowser
 import RenetikObjc
 import TUSafariActivity
 import ARChromeActivity
@@ -174,10 +175,15 @@ public class CSHtmlTextView: DTAttributedTextView, DTAttributedTextContentViewDe
             } else if attachment.displaySize.width > 50 {
                 imageUrls.add(attachment.contentURL)
                 imageView.image(url: attachment.contentURL).onClick {
-                    let photoBrowser = IDMPhotoBrowser(photoURLs: self.imageUrls)!
-                    photoBrowser.navigationItem.title = navigation.last?.navigationItem.title
-                    photoBrowser.disableVerticalSwipe = true
-                    navigation.push(fromTop: photoBrowser)
+                    var images = [SKPhoto]()
+                    self.imageUrls.forEach { url in
+                        let photo = SKPhoto.photoWithImageURL(url.absoluteString)
+                        photo.shouldCachePhotoURLImage = true
+                        images.append(photo)
+                    }
+                    let browser = SKPhotoBrowser(photos: images)
+                    browser.initializePageIndex(0)
+                    navigation.push(fromTop: browser)
                 }
             } else {
                 imageView.image(url: attachment.contentURL)

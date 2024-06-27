@@ -114,6 +114,8 @@ Pod::Spec.new do |s|
 		ss.dependency 'Renetik/Core'
 		ss.dependency 'DTCoreText'
 		ss.dependency 'IDMPhotoBrowser'
+#    ss.dependency 'NYTPhotoViewer'
+    ss.dependency 'SKPhotoBrowser'
 		ss.dependency 'ARChromeActivity'
 		ss.dependency 'TUSafariActivity'
 		ss.source_files = 'Renetik/Classes/DTCoreText/**/*'
