@@ -6,10 +6,6 @@
 
 import RenetikObjc
 
-struct Test {
-
-}
-
 public class CSConcurrentResponse: CSResponse<NSMutableArray> {
 
     var failedResponse: CSResponseProtocol?
