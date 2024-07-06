@@ -1,44 +1,44 @@
 //
-//  CSTableListDataLoader.swift
+//  CSTableController+Data.swift
 //
 //  Created by Rene Dohan on 3/8/19.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension CSTableController {
-
     func data(for path: IndexPath) -> Row { data[path.row] }
 
     func height<View: CSTableHeightCalculatingCell>(for path: IndexPath, _ view: View) -> CGFloat
-            where View.Row == Row {
+        where View.Row == Row
+    {
         view.height(for: data(for: path))
     }
 
     @discardableResult
-    public func add(item: Row) -> Self {
+    func add(item: Row) -> Self {
         _data.add(item)
         filterDataAndReload()
         return self
     }
 
     @discardableResult
-    public func insert(item: Row, index: Int) -> Self {
+    func insert(item: Row, index: Int) -> Self {
         _data.insert(item, at: index)
         filterDataAndReload()
         return self
     }
 
     @discardableResult
-    public func remove(item index: Int) -> Self {
+    func remove(item index: Int) -> Self {
         _data.remove(at: index)
         filterDataAndReload()
         return self
     }
 
     @discardableResult
-    public func clear() -> Self {
+    func clear() -> Self {
         _data.removeAll()
         filterDataAndReload()
         return self
@@ -46,7 +46,6 @@ public extension CSTableController {
 }
 
 public extension CSTableController where Row: Equatable {
-
     @discardableResult
     func reload(row: Row) -> Self {
         let tableIsAtBottom = isAtBottom()
@@ -57,7 +56,7 @@ public extension CSTableController where Row: Equatable {
     }
 
     @discardableResult
-    public func remove(item: Row) -> Self {
+    func remove(item: Row) -> Self {
         _data.remove(item)
         filterDataAndReload()
         return self

@@ -6,38 +6,37 @@ import RenetikObjc
 
 public typealias CSTableControllerRow = CSAny
 //                                        & Equatable & CustomStringConvertible
-public typealias CSTableControllerParent = CSMainController & UITableViewDataSource & UITableViewDelegate &
-                                           CSOperationController & CSHasDialog & CSHasProgress
+public typealias CSTableControllerParent = CSHasDialog & CSHasProgress & CSMainController &
+    CSOperationController & UITableViewDataSource & UITableViewDelegate
 
 public protocol CSTableControllerProtocol {
     var tableView: UITableView { get }
 }
 
-public typealias CSTableControllerType = UIViewController & CSTableControllerProtocol
+public typealias CSTableControllerType = CSTableControllerProtocol & UIViewController
 
 public class CSTableController<Row: CSTableControllerRow, Data>: CSViewController, CSTableControllerProtocol {
-
     public var filter: CSTableControllerFilter<Row, Data>?
 
     public var data: [Row] { filteredData }
     public var loadData: (() -> CSOperation<Data>)!
     public let onLoading: CSEvent<CSProcess<Data>> = event()
-    internal (set) public var isLoading = false
-    private(set) public var isFirstLoadingDone = false
-    private(set) public var isFailed = false
-    private(set) public var failedMessage: String?
-
+    public var isLoading = false
+    public private(set) var isFirstLoadingDone = false
+    public private(set) var isFailed = false
+    public private(set) var failedMessage: String?
 
     public let tableView = UITableView.construct().also { $0.estimatedRowHeight = 0 }
 
-    internal var parentController: CSTableControllerParent!
-    internal var _data: [Row]!
+    var parentController: CSTableControllerParent!
+    var _data: [Row]!
 
     private var filteredData = [Row]()
     private var loadProcess: CSProcess<Data>? = nil
 
     public func construct(by parent: CSTableControllerParent,
-                          parentView: UIView? = nil, data: [Row] = [Row]()) -> Self {
+                          parentView: UIView? = nil, data: [Row] = [Row]()) -> Self
+    {
         super.construct(parent)
         parentController = parent
         tableView.delegates(parent)
@@ -55,13 +54,14 @@ public class CSTableController<Row: CSTableControllerRow, Data>: CSViewControlle
         tableView.reload()
     }
 
-    public override func onViewDidAppearFirstTime() {
+    override public func onViewDidAppearFirstTime() {
         super.onViewDidAppearFirstTime()
         if _data.hasItems { filterDataAndReload() }
     }
 
-    public override func onViewDidTransition(
-            to size: CGSize, _ context: UIViewControllerTransitionCoordinatorContext) {
+    override public func onViewDidTransition(
+        to _: CGSize, _: UIViewControllerTransitionCoordinatorContext
+    ) {
         tableView.reload()
     }
 
@@ -73,23 +73,23 @@ public class CSTableController<Row: CSTableControllerRow, Data>: CSViewControlle
         isLoading = true
         tableView.reload()
         return parentController.send(operation: loadData().refresh(refresh),
-                        progress: withProgress, failedDialog: false)
-                .onFailed { process in
-                    self.isFailed = true
-                    self.failedMessage = process.message
-                    self.clear()
+                                     progress: withProgress, failedDialog: false)
+            .onFailed { process in
+                self.isFailed = true
+                self.failedMessage = process.message
+                self.clear()
 //                    self.tableView.reload()
-                }.onCancel { process in
-                    self.isFailed = true
-                    self.failedMessage = process.message
-                }.onDone { data in
-                    self.isLoading = false
-                    self.isFirstLoadingDone = true
-                    self.tableView.reload()
-                }.also { process in
-                    self.loadProcess = process
-                    onLoading.fire(process)
-                }
+            }.onCancel { process in
+                self.isFailed = true
+                self.failedMessage = process.message
+            }.onDone { _ in
+                self.isLoading = false
+                self.isFirstLoadingDone = true
+                self.tableView.reload()
+            }.also { process in
+                self.loadProcess = process
+                onLoading.fire(process)
+            }
     }
 
     @discardableResult
@@ -105,29 +105,29 @@ public class CSTableController<Row: CSTableControllerRow, Data>: CSViewControlle
         _data.add(array: dataToAdd)
         let filteredDataToAdd = filter(data: dataToAdd)
         var paths = [IndexPath]()
-        for index in 0..<filteredDataToAdd.count {
+        for index in 0 ..< filteredDataToAdd.count {
             paths.add(IndexPath(row: index + dataCount, section: 0))
         }
-        self.filteredData.add(array: filteredDataToAdd)
+        filteredData.add(array: filteredDataToAdd)
         tableView.beginUpdates()
         tableView.insertRows(at: paths, with: .automatic)
         tableView.endUpdates()
         isFailed = false
     }
 
-    internal func filterDataAndReload() {
+    func filterDataAndReload() {
         filteredData.reload(filter(data: _data))
         tableView.reload()
         filter?.onReloadDone(in: self)
     }
 
-    private func filter(data: [Row]) -> [Row] { self.filter?.filter(data: data) ?? data }
+    private func filter(data: [Row]) -> [Row] { filter?.filter(data: data) ?? data }
 }
 
-extension CSTableController {
-    public func dequeue<CellType: UITableViewCell>(
-            cell type: CellType.Type, onCreate function: ((CellType) -> Void)? = nil) -> CellType {
+public extension CSTableController {
+    func dequeue<CellType: UITableViewCell>(
+        cell type: CellType.Type, onCreate function: ((CellType) -> Void)? = nil
+    ) -> CellType {
         tableView.dequeue(cell: type, onCreate: function)
     }
 }
-

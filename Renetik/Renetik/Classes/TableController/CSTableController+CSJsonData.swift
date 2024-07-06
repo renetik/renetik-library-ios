@@ -7,7 +7,7 @@ import RenetikObjc
 
 public extension CSTableController where Row: CSJsonData, Data: CSListServerJsonData<Row> {
     @discardableResult
-    public func onLoadList(operation: CSOperation<Data>) -> Self {
+    func onLoadList(operation: CSOperation<Data>) -> Self {
         loadData = { operation.onSuccess { data in self.load(data.list) } }
         return self
     }
@@ -15,7 +15,7 @@ public extension CSTableController where Row: CSJsonData, Data: CSListServerJson
 
 public extension CSTableController where Data: CSListData {
     @discardableResult
-    public func onLoadList(operation: CSOperation<Data>) -> Self {
+    func onLoadList(operation: CSOperation<Data>) -> Self {
         loadData = { operation.onSuccess { data in self.load(data.list.cast()) } }
         return self
     }

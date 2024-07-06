@@ -3,11 +3,10 @@
 //
 
 import Foundation
-import UIKit
 import RenetikObjc
+import UIKit
 
 public class CSTablePagerController<Row: CSTableControllerRow, Data>: NSObject {
-
     var table: CSTableController<Row, Data>!
     var onLoadPage: ((Int) -> CSOperation<Data>)!
     private var pageIndex = -1
@@ -18,11 +17,12 @@ public class CSTablePagerController<Row: CSTableControllerRow, Data>: NSObject {
     public var onShouldLoadNext: ((IndexPath) -> Bool)?
 
     public func construct(by controller: CSTableController<Row, Data>,
-                          onLoadPage: @escaping (Int) -> CSOperation<Data>) -> Self {
-        self.table = controller
+                          onLoadPage: @escaping (Int) -> CSOperation<Data>) -> Self
+    {
+        table = controller
         self.onLoadPage = onLoadPage
         table.loadData = onLoad
-        return self;
+        return self
     }
 
     func onLoad() -> CSOperation<Data> {
@@ -38,7 +38,7 @@ public class CSTablePagerController<Row: CSTableControllerRow, Data>: NSObject {
         return self
     }
 
-    public func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt path: IndexPath) {
+    public func tableView(_: UITableView, willDisplay _: UITableViewCell, forRowAt path: IndexPath) {
         if shouldLoadNext(path: path) { loadNext() }
     }
 
@@ -67,7 +67,7 @@ public class CSTablePagerController<Row: CSTableControllerRow, Data>: NSObject {
 
     private func showLoadNextIndicator() {
         table.tableView.superview!.add(view: loadNextView ?? createLoadNextView())
-                .from(bottom: 15).centeredHorizontal()
+            .from(bottom: 15).centeredHorizontal()
     }
 
     private func createLoadNextView() -> UIView {

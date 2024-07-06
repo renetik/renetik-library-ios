@@ -5,15 +5,14 @@
 import RenetikObjc
 
 public extension CSTableController {
-
     @discardableResult
-    public func scroll(to index: Int, position: UITableView.ScrollPosition = .middle) -> Self {
+    func scroll(to index: Int, position _: UITableView.ScrollPosition = .middle) -> Self {
         tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .middle, animated: true)
         return self
     }
 
     @discardableResult
-    public func scrollToBottom() -> Self {
+    func scrollToBottom() -> Self {
         if isLoading || isFirstLoadingDone.isFalse {
             onLoading.invokeOnce { response in response.onDone { _ in self.scrollToBottom() } }
         } else {
@@ -23,13 +22,13 @@ public extension CSTableController {
     }
 
     private func scrollToBottom() {
-        if self.dataCount > 0 {
-            let path = IndexPath(row: self.dataCount - 1, section: 0)
-            self.tableView.scrollToRow(at: path, at: .bottom, animated: true)
+        if dataCount > 0 {
+            let path = IndexPath(row: dataCount - 1, section: 0)
+            tableView.scrollToRow(at: path, at: .bottom, animated: true)
         }
     }
 
-    public func isAtBottom() -> Bool {
+    func isAtBottom() -> Bool {
         let lastPath = tableView.indexPathsForVisibleRows?.last
         if lastPath == nil { return true }
         if lastPath!.row == dataCount - 1 { return true }
@@ -38,9 +37,8 @@ public extension CSTableController {
 }
 
 public extension CSTableController where Row: Equatable {
-
     @discardableResult
-    public func scroll(to row: Row, position: UITableView.ScrollPosition = .middle) -> Self {
+    func scroll(to row: Row, position: UITableView.ScrollPosition = .middle) -> Self {
         scroll(to: data.index(of: row)!, position: position)
     }
 }

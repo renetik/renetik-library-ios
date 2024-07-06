@@ -2,9 +2,9 @@
 // Created by Rene Dohan on 6/11/20.
 //
 
-//import Foundation
+// import Foundation
 //
-//public class CSTableStringSearchFilter<Row: CSTableControllerRow, Data>: CSTableControllerFilter<Row, Data>
+// public class CSTableStringSearchFilter<Row: CSTableControllerRow, Data>: CSTableControllerFilter<Row, Data>
 //        where Row: CustomStringConvertible & Equatable {
 //
 //    public var searchText = "" { didSet { table.filterDataAndReload() } }
@@ -21,4 +21,4 @@
 //    }
 //
 //    public override func filter(data: [Row]) -> [Row] { data.filter(bySearch: searchText) }
-//}
+// }
