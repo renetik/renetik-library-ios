@@ -5,7 +5,6 @@
 import UIKit
 
 public extension UIEdgeInsets {
-
     var horizontalSize: CGFloat { left + right }
 
     var horizontal: (left: CGFloat, right: CGFloat) { (left: left, right: right) }
@@ -37,7 +36,6 @@ public extension UIEdgeInsets {
     init(left: CGFloat, right: CGFloat) {
         self.init(top: 0, left: left, bottom: 0, right: right)
     }
-
 
     init(_ inset: CGFloat) { self.init(horizontal: inset, vertical: inset) }
 }

@@ -15,7 +15,6 @@ public struct CSEventArgument<Type> {
 }
 
 public class CSEventListener<Type>: CSEventRegistration {
-
     public typealias CSEventFunction = (CSEventListener<Type>, Type) -> Void
 
     private let event: CSEvent<Type>, function: CSEventFunction
@@ -35,13 +34,14 @@ public class CSEventListener<Type>: CSEventRegistration {
 }
 
 public class CSEvent<Type> {
-
     public init() {}
 
     private var registrations = [CSEventListener<Type>]()
 
     public func fire(_ argument: Type) {
-        for registration in registrations { registration.fire(argument) }
+        for registration in registrations {
+            registration.fire(argument)
+        }
     }
 
     @discardableResult
@@ -70,5 +70,5 @@ public class CSEvent<Type> {
 }
 
 public extension CSEvent where Type == Void {
-    public func fire() { fire(()) }
+    func fire() { fire(()) }
 }

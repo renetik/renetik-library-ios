@@ -4,14 +4,13 @@
 //
 
 import Foundation
-import UIKit
-import Renetik
-import RenetikObjc
 import MaterialComponents
 import MaterialComponents.MDCTextInputControllerBase
+import Renetik
+import RenetikObjc
+import UIKit
 
 public extension MDCTextInputControllerBase {
-
     @discardableResult
     func setError(_ message: String?) -> Self {
         setErrorText(message, errorAccessibilityValue: nil)
@@ -64,7 +63,6 @@ public extension MDCTextInputControllerBase {
 }
 
 extension MDCTextInputControllerBase: CSHasTextProtocol, CSHasUIResponder {
-
     public var responder: UIResponder { textInput! }
 
     public var text: String {

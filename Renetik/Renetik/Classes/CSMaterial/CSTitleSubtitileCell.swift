@@ -4,12 +4,11 @@
 //
 
 import Foundation
+import MaterialComponents.MDCCard
 import Renetik
 import RenetikObjc
-import MaterialComponents.MDCCard
 
 open class CSTitleSubtitleCell: CSTableViewCell {
-
     public let card = MDCCard.construct()
     public let titleLabel = UILabel.construct()
     public let subtitleLabel = UILabel.construct()

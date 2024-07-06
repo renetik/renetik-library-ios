@@ -1,5 +1,5 @@
-extension String {
-    public func addSizeToHtmlImageTags(_ width: CGFloat) -> String {
+public extension String {
+    func addSizeToHtmlImageTags(_ width: CGFloat) -> String {
         let endTag = "/>"
         let tags = findTags(startTag: "<img ", endTag: endTag, where: { !$0.contains("width=") })
         let string = NSMutableString(string: self)

@@ -9,12 +9,11 @@ import Foundation
 import RenetikObjc
 
 public extension String {
-
     static let newLine = "\n"
 
     static func randomString(length: Int) -> String {
         let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map { _ in
+        return String((0 ..< length).map { _ in
             letters.randomElement()!
         })
     }
@@ -52,8 +51,8 @@ public extension String {
         asNSString.substring(from: from, to: to) as String
     }
 
-    @inlinable public func stringIndex(at: String.IndexDistance) -> String.Index {
-        self.index(startIndex, offsetBy: at)
+    @inlinable func stringIndex(at: String.IndexDistance) -> String.Index {
+        index(startIndex, offsetBy: at)
     }
 
     func index(of string: String, from: Int) -> Int? {
@@ -71,12 +70,11 @@ public extension String {
 
     func remove(all string: String) -> String { replace(all: string, with: "") }
 
-    //func remove(first
+    // func remove(first
 
     func replace(all string: String, with replace: String) -> String {
         replacingOccurrences(of: string, with: replace)
     }
-
 
     // func replace(first
 
@@ -84,10 +82,10 @@ public extension String {
         NSAttributedString(string: self, attributes: dictionary)
     }
 
-    public func split(by separator: String) -> [String] { components(separatedBy: separator) }
+    func split(by separator: String) -> [String] { components(separatedBy: separator) }
 }
 
-//public extension String {
+// public extension String {
 //    mutating func insert(_ string: String, index: Int) {
 //        insert(contentsOf: string, at: stringIndex(at: index))
 //        replace(from: index, to: index, with: string)
@@ -96,34 +94,32 @@ public extension String {
 //    mutating func replace(from: Int, to: Int, with replace: String) {
 //        replaceSubrange(stringIndex(at: from)..<stringIndex(at: to), with: replace)
 //    }
-//}
+// }
 
 public extension Optional where Wrapped == String {
-    public var isNilOrEmpty: Bool {
+    var isNilOrEmpty: Bool {
         if self == nil {
             return true
         }
         return self!.isEmpty
     }
 
-    public func isNilOrEmpty(_ function: Func) -> Self {
+    func isNilOrEmpty(_ function: Func) -> Self {
         if isNilOrEmpty { function() }
         return self
     }
 
-    public var isSet: Bool {
+    var isSet: Bool {
         if self == nil {
             return false
         }
         return !self!.isEmpty
     }
 
-    public func contains(_ string: String) -> Bool {
+    func contains(_ string: String) -> Bool {
         if self == nil {
             return false
         }
         return self!.contains(string)
     }
-
-
 }

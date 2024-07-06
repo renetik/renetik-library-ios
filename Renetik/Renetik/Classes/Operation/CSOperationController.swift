@@ -13,10 +13,10 @@ public protocol CSOperationController {
 }
 
 public extension CSOperationController {
-
     @discardableResult
     func send<Data>(operation: CSOperation<Data>, progress: Bool = true, canCancel: Bool = true,
-                    failedDialog: Bool = true, onSuccess: ((Data) -> Void)? = nil) -> CSProcess<Data> {
+                    failedDialog: Bool = true, onSuccess: ((Data) -> Void)? = nil) -> CSProcess<Data>
+    {
         send(operation, progress, canCancel, failedDialog, onSuccess)
     }
 }

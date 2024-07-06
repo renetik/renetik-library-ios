@@ -2,11 +2,10 @@
 // Created by Rene Dohan on 2/12/20.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UIApplication {
-
     class var window: UIWindow? { UIApplication.shared.windows.last }
 
     @objc class func resignFirstResponder() {

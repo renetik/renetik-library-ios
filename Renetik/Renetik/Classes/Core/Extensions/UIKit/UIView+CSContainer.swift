@@ -2,12 +2,12 @@
 //  Created by Rene on 11/26/18.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UIView {
     @discardableResult
-    func add<View: UIView>(view: View, _ apply: ((View) -> ())? = nil) -> View {
+    func add<View: UIView>(view: View, _ apply: ((View) -> Void)? = nil) -> View {
         addSubview(view)
         apply?(view)
         return view
@@ -43,7 +43,7 @@ public extension UIView {
         }
         var index = subviews.index(of: view)! - 1
         while index >= 0 {
-            let view = self.subviews[index]
+            let view = subviews[index]
             if view.isVisible { return view }
             index -= 1
         }
@@ -81,6 +81,6 @@ public extension UIView {
     @discardableResult
     func addBottomSeparator(height: CGFloat = 0.5, color: UIColor = .darkGray) -> UIView {
         add(UIView.construct()).height(height).from(bottom: 0).matchParentWidth()
-                .flexibleTop().fixedBottom().background(color)
+            .flexibleTop().fixedBottom().background(color)
     }
 }

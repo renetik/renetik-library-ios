@@ -4,8 +4,7 @@
 
 import CoreGraphics
 
-public extension CGPoint { //TODO: move to CoreGraphics
-
+public extension CGPoint { // TODO: move to CoreGraphics
     init(left: CGFloat, top: CGFloat) {
         self.init(x: left, y: top)
     }

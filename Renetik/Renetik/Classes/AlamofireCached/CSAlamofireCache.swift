@@ -5,7 +5,7 @@
 
 import Foundation
 
-public struct CSAlamofireCache {
+public enum CSAlamofireCache {
     public static var HTTPVersion = "HTTP/1.1"
     static var canUseCacheControl: Bool { !HTTPVersion.contains("1.0") }
     static let frameworkName = "RenetikAlamofireCache"
@@ -16,7 +16,7 @@ public struct CSAlamofireCache {
 
 extension Dictionary where Key == String, Value == String {
     mutating func addCacheControlField(maxAge: TimeInterval, isPrivate: Bool) {
-        //TODO check format of result string should be just number without punctuation
+        // TODO: check format of result string should be just number without punctuation
         var cacheValue = "max-age=\(maxAge)"
         if isPrivate { cacheValue += ",private" }
         self["Cache-Control"] = cacheValue

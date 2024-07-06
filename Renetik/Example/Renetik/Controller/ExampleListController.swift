@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ExampleListController.swift
 //  Renetik
 //
 //  Created by rene-dohan on 02/19/2019.
@@ -15,4 +15,3 @@ class ExampleListController: UIViewController {
         super.viewDidLoad()
     }
 }
-

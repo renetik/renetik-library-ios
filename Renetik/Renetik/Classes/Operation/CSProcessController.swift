@@ -3,8 +3,8 @@
 //
 
 import Foundation
-import UIKit
 import RenetikObjc
+import UIKit
 
 public protocol CSProcessController {
     func show<Data: AnyObject>(_ process: CSProcess<Data>, _ title: String, _ progress: Bool, _ canCancel: Bool,
@@ -13,10 +13,11 @@ public protocol CSProcessController {
 
 public extension CSProcessController {
     @discardableResult
-    public func show<Data: AnyObject>(_ process: CSProcess<Data>, title: String = CSStrings.requestLoading,
-                                      progress: Bool = true, canCancel: Bool = true,
-                                      failedDialog: Bool = true,
-                                      onSuccess: ((Data) -> Void)? = nil) -> CSProcess<Data> {
+    func show<Data: AnyObject>(_ process: CSProcess<Data>, title: String = CSStrings.requestLoading,
+                               progress: Bool = true, canCancel: Bool = true,
+                               failedDialog: Bool = true,
+                               onSuccess: ((Data) -> Void)? = nil) -> CSProcess<Data>
+    {
         show(process, title, progress, canCancel, failedDialog, onSuccess)
     }
 }

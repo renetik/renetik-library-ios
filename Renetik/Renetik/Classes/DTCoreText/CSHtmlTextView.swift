@@ -1,23 +1,22 @@
 //
-//  CSDTAttributeLabel.swift
+//  CSHtmlTextView.swift
 //  Motorkari
 //
 //  Created by Rene Dohan on 2/7/19.
 //  Copyright © 2019 Renetik Software. All rights reserved.
 //
 
-import Foundation
-import UIKit
+import ARChromeActivity
 import DTCoreText
 import DTCoreText.DTAttributedTextView
 import DTCoreText.DTCoreTextLayoutFrame
-import IDMPhotoBrowser
-import SKPhotoBrowser
+import Foundation
 import RenetikObjc
+import SKPhotoBrowser
 import TUSafariActivity
-import ARChromeActivity
+import UIKit
 
-//TODO: Move to extra library
+// TODO: Move to extra library
 public class CSHtmlTextView: DTAttributedTextView, DTAttributedTextContentViewDelegate {
     public var font = UIFont.preferredFont(forTextStyle: .body) {
         didSet {
@@ -30,6 +29,7 @@ public class CSHtmlTextView: DTAttributedTextView, DTAttributedTextContentViewDe
             text(text)
         }
     }
+
     public var encoding: String.Encoding = .utf8
     public var linkColor: UIColor = .blue
     public var linkHighlightedColor: UIColor = .purple
@@ -38,11 +38,12 @@ public class CSHtmlTextView: DTAttributedTextView, DTAttributedTextContentViewDe
             shouldDrawLinks = !linksActive
         }
     }
+
     private var imageUrls = [URL]()
 //    private var numberOfImages = 0
     private var lineBreakMode: NSLineBreakMode = .byWordWrapping
 
-    public override func construct() -> Self {
+    override public func construct() -> Self {
         super.construct()
         shouldDrawLinks = !linksActive // We are drawing links to make them clickable and styled right
         textDelegate = self
@@ -102,10 +103,11 @@ public class CSHtmlTextView: DTAttributedTextView, DTAttributedTextContentViewDe
         didSet {
             imageUrls.clear()
 //            numberOfImages = html.countHtmlImageTagsWithoutSize()
-            let corrected = text.addSizeToHtmlImageTags(self.width)
+            let corrected = text.addSizeToHtmlImageTags(width)
             attributedString = NSAttributedString(
-                    htmlData: corrected.data(using: encoding),
-                    options: attributedOptions, documentAttributes: nil)
+                htmlData: corrected.data(using: encoding),
+                options: attributedOptions, documentAttributes: nil
+            )
         }
     }
 
@@ -122,7 +124,7 @@ public class CSHtmlTextView: DTAttributedTextView, DTAttributedTextContentViewDe
             DTDefaultTextColor: textColor,
             DTDefaultLinkColor: linkColor,
             DTDefaultLinkHighlightColor: linkHighlightedColor,
-            DTDefaultLinkDecoration: true
+            DTDefaultLinkDecoration: true,
         ]
     }
 
@@ -139,12 +141,12 @@ public class CSHtmlTextView: DTAttributedTextView, DTAttributedTextContentViewDe
 
         let DTCoreTextLayoutFrameDrawingDefault = DTCoreTextLayoutFrameDrawingOptions(rawValue: 1 << 0)!
         let normalImage = attributedTextContentView.contentImage(withBounds: frame,
-                options: DTCoreTextLayoutFrameDrawingDefault)
+                                                                 options: DTCoreTextLayoutFrameDrawingDefault)
         button.setImage(normalImage, for: .normal)
 
         let DTCoreTextLayoutFrameDrawingDrawLinksHighlighted = DTCoreTextLayoutFrameDrawingOptions(rawValue: 1 << 3)!
         let highlightImage = attributedTextContentView.contentImage(withBounds: frame,
-                options: DTCoreTextLayoutFrameDrawingDrawLinksHighlighted)
+                                                                    options: DTCoreTextLayoutFrameDrawingDrawLinksHighlighted)
         button.setImage(highlightImage, for: .highlighted)
         handleExternalUrl(view: button, url: url)
         return button
@@ -154,14 +156,15 @@ public class CSHtmlTextView: DTAttributedTextView, DTAttributedTextContentViewDe
         view.onClick { UIApplication.open(url: url) }
         view.onLongPress {
             let controller = UIActivityViewController(activityItems: [URL(url)],
-                    applicationActivities: [TUSafariActivity(), ARChromeActivity()])
+                                                      applicationActivities: [TUSafariActivity(), ARChromeActivity()])
             controller.popoverPresentationController?.sourceView = view
             navigation.last!.present(controller, animated: true, completion: nil)
         }
     }
 
-    public func attributedTextContentView(_ contentView: DTAttributedTextContentView!,
-                                          viewFor attachment: DTTextAttachment!, frame: CGRect) -> UIView! {
+    public func attributedTextContentView(_: DTAttributedTextContentView!,
+                                          viewFor attachment: DTTextAttachment!, frame: CGRect) -> UIView!
+    {
         if attachment is DTImageTextAttachment {
 //            if attachment.displaySize.width == 0 {
 //                attachment.displaySize = CGSize(width: width, height: width / 2)
@@ -169,14 +172,15 @@ public class CSHtmlTextView: DTAttributedTextView, DTAttributedTextContentViewDe
 //            }
             let imageView = UIImageView.construct().position(frame.origin).size(attachment.displaySize)
             if attachment.hyperLinkURL.notNil &&
-                       attachment.hyperLinkURL != attachment.contentURL {
+                attachment.hyperLinkURL != attachment.contentURL
+            {
                 imageView.image(url: attachment.contentURL)
                 handleExternalUrl(view: imageView, url: attachment.hyperLinkURL.path)
             } else if attachment.displaySize.width > 50 {
                 imageUrls.add(attachment.contentURL)
                 imageView.image(url: attachment.contentURL).onClick {
                     var images = [SKPhoto]()
-                    self.imageUrls.forEach { url in
+                    for url in self.imageUrls {
                         let photo = SKPhoto.photoWithImageURL(url.absoluteString)
                         photo.shouldCachePhotoURLImage = true
                         images.append(photo)
@@ -193,7 +197,7 @@ public class CSHtmlTextView: DTAttributedTextView, DTAttributedTextContentViewDe
         return nil
     }
 
-    public override func heightThatFits() -> CGFloat {
+    override public func heightThatFits() -> CGFloat {
         text.isSet ? attributedTextContentView.heightThatFits() : 0
     }
 }

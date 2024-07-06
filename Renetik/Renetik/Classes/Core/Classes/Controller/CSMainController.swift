@@ -2,22 +2,21 @@
 // Created by Rene Dohan on 12/17/19.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 open class CSMainController: CSViewController {
-
     public var parentMainController: CSMainController? = nil
     private var childMainControllers = [CSMainController]()
     private var menuItems = [CSMenuHeader]()
-    private lazy var menuDialog = { CSAlertDialogController(in: self) }()
+    private lazy var menuDialog = CSAlertDialogController(in: self)
 
-    open override func onViewDidLayoutFirstTime() {
+    override open func onViewDidLayoutFirstTime() {
         super.onViewDidLayoutFirstTime()
         if isTopController { updateBarItemsAndMenu() }
     }
 
-    open override func onViewWillAppearLater() {
+    override open func onViewWillAppearLater() {
         super.onViewWillAppearLater()
         if isTopController { updateBarItemsAndMenu() }
     }
@@ -49,8 +48,12 @@ open class CSMainController: CSViewController {
     }
 
     func onPrepare(menu: inout [CSMenuHeader]) {
-        for menuHeader in menuItems { if menuHeader.isVisible { menu.add(menuHeader) } }
-        for controller in childMainControllers { if controller.isShowing { controller.onPrepare(menu: &menu) } }
+        for menuHeader in menuItems {
+            if menuHeader.isVisible { menu.add(menuHeader) }
+        }
+        for controller in childMainControllers {
+            if controller.isShowing { controller.onPrepare(menu: &menu) }
+        }
     }
 
     func createActionBarItems(from menu: inout [CSMenuHeader]) -> [UIBarButtonItem] {
@@ -82,15 +85,15 @@ open class CSMainController: CSViewController {
         }
     }
 
-    open func onPrepareRightBarButton(items: inout [UIBarButtonItem]) {}
+    open func onPrepareRightBarButton(items _: inout [UIBarButtonItem]) {}
 
-    public override func addChild(_ controller: UIViewController) {
+    override public func addChild(_ controller: UIViewController) {
         super.addChild(controller)
         (controller as? CSMainController).notNil { addChildMain(controller: $0) }
     }
 
     @discardableResult
-    public override func dismissChild(controller: UIViewController) -> UIViewController {
+    override public func dismissChild(controller: UIViewController) -> UIViewController {
         super.dismissChild(controller: controller)
         (controller as? CSMainController).then { controller in childMainControllers.remove(controller) }
         return controller
@@ -103,7 +106,9 @@ open class CSMainController: CSViewController {
     }
 
     public func addChildMain(controllers: [CSMainController]) -> [CSMainController] {
-        for controller in controllers { addChildMain(controller: controller) }
+        for controller in controllers {
+            addChildMain(controller: controller)
+        }
         return childMainControllers
     }
 
@@ -113,7 +118,9 @@ open class CSMainController: CSViewController {
     }
 
     public func removeChildMain(controllers: [CSMainController]) -> Self {
-        for controller in controllers { removeChildMain(controller: controller) }
+        for controller in controllers {
+            removeChildMain(controller: controller)
+        }
         return self
     }
 
@@ -144,11 +151,11 @@ open class CSMainController: CSViewController {
     open func hideIn() -> Self {
         isShowing = false
         UIView.animate(withDuration: 0.5,
-                animations: { self.view.bottom = -5 },
-                completion: { finished in
-                    self.view.hide()
-                    self.parentMainController?.dismissChild(controller: self)
-                })
+                       animations: { self.view.bottom = -5 },
+                       completion: { _ in
+                           self.view.hide()
+                           self.parentMainController?.dismissChild(controller: self)
+                       })
         return self
     }
 

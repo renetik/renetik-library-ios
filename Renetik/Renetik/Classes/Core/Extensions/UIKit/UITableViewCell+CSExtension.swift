@@ -5,7 +5,6 @@
 import UIKit
 
 public extension UITableViewCell {
-
     @discardableResult
     override open func construct() -> Self {
         super.construct()
@@ -14,13 +13,13 @@ public extension UITableViewCell {
         return self
     }
 
-    public func setBackgroundViewColor(_ color: UIColor) {
+    func setBackgroundViewColor(_ color: UIColor) {
         backgroundView = UIView.construct(color: color)
     }
 
-    public func setSelectedBackgroundColor(_ color: UIColor) {
+    func setSelectedBackgroundColor(_ color: UIColor) {
         selectedBackgroundView = UIView.construct(color: color)
     }
 
-    public var cellView: UIView? { contentView.content }
+    var cellView: UIView? { contentView.content }
 }

@@ -14,7 +14,7 @@ public class CSNameJsonData: CSJsonData {
         return self
     }
 
-    public override func construct() -> Self { construct("name") }
+    override public func construct() -> Self { construct("name") }
 
     public var id: String { getStringValue("id") }
 

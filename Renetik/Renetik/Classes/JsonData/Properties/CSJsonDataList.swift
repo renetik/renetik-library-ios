@@ -15,8 +15,6 @@ public class CSJsonDataList<T: CSJsonData>: NSObject {
     }
 
     var list: [T] {
-        get {
-            data.createJsonDataList(type, key)
-        }
+        data.createJsonDataList(type, key)
     }
 }

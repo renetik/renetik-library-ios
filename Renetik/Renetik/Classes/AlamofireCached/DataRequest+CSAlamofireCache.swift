@@ -3,29 +3,31 @@
 // Copyright (c) 2020 Renetik. All rights reserved.
 //
 
-import Foundation
-import CoreFoundation
 import Alamofire
-import RenetikObjc
+import CoreFoundation
+import Foundation
 import Renetik
+import RenetikObjc
 
 public extension DataRequest {
-    func clearCache(dataRequest: DataRequest, urlCache: URLCache = URLCache.shared) {
-        self.request?.clearCache(urlCache: urlCache)
+    func clearCache(dataRequest _: DataRequest, urlCache: URLCache = URLCache.shared) {
+        request?.clearCache(urlCache: urlCache)
     }
 }
 
 public extension DataRequest {
     @discardableResult
     func cache(_ session: Session, maxAge: TimeInterval,
-               isPrivate: Bool = false, ignoreServer: Bool = true) -> Self {
+               isPrivate: Bool = false, ignoreServer: Bool = true) -> Self
+    {
         if maxAge <= 0 { return self }
         let requestRefreshCache = request?.allHTTPHeaderFields?[CSAlamofireCache.refreshCacheKey]
         if requestRefreshCache.notNil && requestRefreshCache != CSAlamofireCache.refreshCacheValueRefresh {
             let cachedResponse = session.sessionConfiguration.urlCache?
-                    .cachedResponse(for: request!)?.response as? HTTPURLResponse
+                .cachedResponse(for: request!)?.response as? HTTPURLResponse
             if cachedResponse?.allHeaderFields[CSAlamofireCache.refreshCacheKey].asString
-                       == CSAlamofireCache.refreshCacheValueUse {
+                == CSAlamofireCache.refreshCacheValueUse
+            {
                 return self
             }
         }
@@ -48,9 +50,10 @@ public extension DataRequest {
                 if CSAlamofireCache.canUseCacheControl {
                     let httpResponseCacheControl = httpResponseHeaders["Cache-Control"]
                     if httpResponseCacheControl == nil || httpResponseCacheControl.contains("no-cache") ||
-                               httpResponseCacheControl.contains("no-store") || ignoreServer || useServerButRefresh {
+                        httpResponseCacheControl.contains("no-store") || ignoreServer || useServerButRefresh
+                    {
                         if ignoreServer {
-                            if httpResponseHeaders["Vary"] != nil { httpResponseHeaders.remove(key: "Vary") }  // http 1.1
+                            if httpResponseHeaders["Vary"] != nil { httpResponseHeaders.remove(key: "Vary") } // http 1.1
                             if httpResponseHeaders["Pragma"] != nil { httpResponseHeaders.remove(key: "Pragma") }
                         }
                         httpResponseHeaders.addCacheControlField(maxAge: maxAge, isPrivate: isPrivate)
@@ -70,10 +73,11 @@ public extension DataRequest {
                 }
                 httpResponseHeaders[CSAlamofireCache.refreshCacheKey] = CSAlamofireCache.refreshCacheValueUse
                 if let newResponse = HTTPURLResponse(url: newURL, statusCode: httpResponse.statusCode,
-                        httpVersion: CSAlamofireCache.HTTPVersion, headerFields: httpResponseHeaders) {
+                                                     httpVersion: CSAlamofireCache.HTTPVersion, headerFields: httpResponseHeaders)
+                {
                     let newCacheResponse = CachedURLResponse(response: newResponse, data: newData,
-                            userInfo: ["framework": CSAlamofireCache.frameworkName],
-                            storagePolicy: URLCache.StoragePolicy.allowed)
+                                                             userInfo: ["framework": CSAlamofireCache.frameworkName],
+                                                             storagePolicy: URLCache.StoragePolicy.allowed)
                     urlCache.storeCachedResponse(newCacheResponse, for: newRequest)
                 }
             }
@@ -82,9 +86,10 @@ public extension DataRequest {
 
     @discardableResult
     func response<T: DataResponseSerializerProtocol>(
-            queue: DispatchQueue = .main, responseSerializer: T,
-            completionHandler: @escaping (AFDataResponse<T.SerializedObject>) -> Void,
-            autoClearCache: Bool) -> Self {
+        queue: DispatchQueue = .main, responseSerializer: T,
+        completionHandler: @escaping (AFDataResponse<T.SerializedObject>) -> Void,
+        autoClearCache: Bool
+    ) -> Self {
         let myCompleteHandler: ((AFDataResponse<T.SerializedObject>) -> Void) = { dataResponse in
             if dataResponse.error != nil && autoClearCache { dataResponse.request?.clearCache() }
             completionHandler(dataResponse)
@@ -94,22 +99,25 @@ public extension DataRequest {
 
     @discardableResult
     func responseData(queue: DispatchQueue = .main,
-                      completionHandler: @escaping (AFDataResponse<Data>) -> Void, autoClearCache: Bool) -> Self {
+                      completionHandler: @escaping (AFDataResponse<Data>) -> Void, autoClearCache: Bool) -> Self
+    {
         response(queue: queue, responseSerializer: DataResponseSerializer(),
-                completionHandler: completionHandler, autoClearCache: autoClearCache)
+                 completionHandler: completionHandler, autoClearCache: autoClearCache)
     }
 
     @discardableResult
     func responseString(queue: DispatchQueue = .main, encoding: String.Encoding? = nil,
-                        completionHandler: @escaping (AFDataResponse<String>) -> Void, autoClearCache: Bool) -> Self {
+                        completionHandler: @escaping (AFDataResponse<String>) -> Void, autoClearCache: Bool) -> Self
+    {
         response(queue: queue, responseSerializer: StringResponseSerializer(encoding: encoding),
-                completionHandler: completionHandler, autoClearCache: autoClearCache)
+                 completionHandler: completionHandler, autoClearCache: autoClearCache)
     }
 
     @discardableResult
     func responseJSON(queue: DispatchQueue = .main, options: JSONSerialization.ReadingOptions = .allowFragments,
-                      completionHandler: @escaping (AFDataResponse<Any>) -> Void, autoClearCache: Bool) -> Self {
+                      completionHandler: @escaping (AFDataResponse<Any>) -> Void, autoClearCache: Bool) -> Self
+    {
         response(queue: queue, responseSerializer: JSONResponseSerializer(options: options),
-                completionHandler: completionHandler, autoClearCache: autoClearCache)
+                 completionHandler: completionHandler, autoClearCache: autoClearCache)
     }
 }

@@ -53,7 +53,7 @@ public func localized(_ key: String) -> String {
     return string
 }
 
-public func later(seconds: Int = 0, function: @escaping Func) {
+public func later(seconds _: Int = 0, function: @escaping Func) {
     DispatchQueue.main.async(execute: function)
 }
 
@@ -80,7 +80,9 @@ public func describe<Subject>(_ value: Subject) -> String {
 }
 
 public func notNil(_ items: Any?...) -> Bool {
-    for it in items { if it.isNil { return false } }
+    for it in items {
+        if it.isNil { return false }
+    }
     return true
 }
 
@@ -97,7 +99,7 @@ public func when<Type>(isNil item: Type?, then: Func) {
 open class CSObject: CSAny, Equatable, CustomStringConvertible {
     public init() {}
 
-    public static func ==(lhs: CSObject, rhs: CSObject) -> Bool { lhs === rhs }
+    public static func == (lhs: CSObject, rhs: CSObject) -> Bool { lhs === rhs }
 
     public var description: String { "\(type(of: self))" }
 }
@@ -105,9 +107,9 @@ open class CSObject: CSAny, Equatable, CustomStringConvertible {
 public class Nil: CSAny, Equatable {
     private init() {}
 
-    public static var instance: Nil = Nil()
+    public static var instance: Nil = .init()
 
-    public static func ==(lhs: Nil, rhs: Nil) -> Bool { true }
+    public static func == (_: Nil, _: Nil) -> Bool { true }
 }
 
 extension IndexPath: CSAny {}
@@ -136,7 +138,7 @@ func function(if boolean: Bool, function: Func) -> CSConditionalResult {
 public class CSConditionalResult {
     let isDoElse: Bool
 
-    public init(doElseIf: Bool) { self.isDoElse = doElseIf }
+    public init(doElseIf: Bool) { isDoElse = doElseIf }
 
     public func elseDo(_ function: Func) { if isDoElse { function() } }
 }

@@ -3,15 +3,14 @@
 // Copyright (c) 2019 Renetik Software. All rights reserved.
 //
 
+import BlocksKit
 import MaterialComponents
 import MaterialComponents.MDCPageControl
-import UIKit
-import RenetikObjc
 import Renetik
-import BlocksKit
+import RenetikObjc
+import UIKit
 
 open class CSMDCPageControlScrollPager: CSMainController, UIScrollViewDelegate {
-
     var pageControl: MDCPageControl!
     var scrollView: UIScrollView!
     var createScrollViewContent: (() -> UIView)!
@@ -19,11 +18,12 @@ open class CSMDCPageControlScrollPager: CSMainController, UIScrollViewDelegate {
     var currentPage = 0
 
     public func construct(_ parent: CSMainController, _ pageControl: MDCPageControl, _ scrollView: UIScrollView,
-                          _ count: Int, _ createScrollViewContent: @escaping () -> UIView) {
+                          _ count: Int, _ createScrollViewContent: @escaping () -> UIView)
+    {
         super.constructAsViewLess(in: parent)
         self.pageControl = pageControl
         pageControl.numberOfPages = count
-        pageControl.alpha = count > 1 ? 1 : 0 //BUG! hide/visible not works for MDCPageControl BUG!
+        pageControl.alpha = count > 1 ? 1 : 0 // BUG! hide/visible not works for MDCPageControl BUG!
         self.scrollView = scrollView
         scrollView.delegate = self
         scrollView.isPagingEnabled = true
@@ -36,7 +36,8 @@ open class CSMDCPageControlScrollPager: CSMainController, UIScrollViewDelegate {
     override open func onViewWillAppear() { createContentView() }
 
     override open func onViewDidTransition(
-            to size: CGSize, _ context: UIViewControllerTransitionCoordinatorContext?) {
+        to _: CGSize, _: UIViewControllerTransitionCoordinatorContext?
+    ) {
         animate { self.createContentView(animated: false) }
     }
 

@@ -4,8 +4,8 @@
 
 import Foundation
 
-extension UITabBarItem {
-    public convenience init(title: String, image: UIImage?) {
+public extension UITabBarItem {
+    convenience init(title: String, image: UIImage?) {
         self.init(title: title, image: image, tag: 0)
     }
 }

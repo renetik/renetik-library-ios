@@ -18,13 +18,12 @@ enum CSRequestType: Int {
 }
 
 public class CSResponse<Data: AnyObject>: NSObject, CSResponseProtocol {
-
     private(set) var url = ""
     private(set) var service = ""
-    private(set) public var isSuccess = false
-    private(set) public var isFailed = false
-    private(set) public var isCanceled = false
-    private(set) public var isDone = false
+    public private(set) var isSuccess = false
+    public private(set) var isFailed = false
+    public private(set) var isCanceled = false
+    public private(set) var isDone = false
 
     public var data: Data!
     var content: String?
@@ -51,7 +50,7 @@ public class CSResponse<Data: AnyObject>: NSObject, CSResponseProtocol {
 //        super.init()
 //    }
 
-    convenience public init(_ url: String, _ service: String, _ data: Data, _ params: [AnyHashable: Any]) {
+    public convenience init(_ url: String, _ service: String, _ data: Data, _ params: [AnyHashable: Any]) {
         self.init()
         self.url = url
         self.service = service
@@ -60,7 +59,7 @@ public class CSResponse<Data: AnyObject>: NSObject, CSResponseProtocol {
         logInfo("\(url) \(service) \(params)")
     }
 
-    convenience public init(_ data: Data) {
+    public convenience init(_ data: Data) {
         self.init()
         self.data = data
         logInfo("\(url) \(service) \(params)")

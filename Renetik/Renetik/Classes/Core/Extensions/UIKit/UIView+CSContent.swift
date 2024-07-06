@@ -2,14 +2,13 @@
 // Created by Rene Dohan on 1/29/20.
 //
 
-import UIKit
-import RenetikObjc
 import BlocksKit
+import RenetikObjc
+import UIKit
 
 private var viewContentPropertyKey: UInt8 = 0
 
 public extension UIView {
-
     var content: UIView? {
         get { getObject(&viewContentPropertyKey) as? UIView }
         set(view) {
@@ -22,13 +21,13 @@ public extension UIView {
     func content<View: UIView>(_ view: View) -> View { content = view; return view }
 
     class func withContent(_ view: UIView = UIView.construct()) -> Self {
-        let container = self.construct(frame: view.frame)
+        let container = construct(frame: view.frame)
         container.content(view).matchParent()
         return container
     }
 
     class func wrap(view: UIView) -> Self {
-        let container = self.construct(frame: view.frame)
+        let container = construct(frame: view.frame)
         let center = view.center
         let superview = view.superview
         let autoSize = view.autoresizingMask
@@ -40,8 +39,8 @@ public extension UIView {
     }
 
     class func wrap(view: UIView, padding: CGFloat) -> Self {
-        let container = self.construct(width: view.width + padding * 2,
-                height: view.height + padding * 2)
+        let container = construct(width: view.width + padding * 2,
+                                  height: view.height + padding * 2)
         let center = view.center
         let superview = view.superview
         let autoSize = view.autoresizingMask
@@ -61,7 +60,6 @@ public extension UIView {
         content!.from(left: padding).width(fromRight: padding).flexibleHeight()
         return self
     }
-
 
 //    func content(padding: CGFloat) -> Self {
 //        contentHorizontal(padding: padding)

@@ -114,10 +114,10 @@ public class CSProcess<Data>: CSAny, CSProcessProtocol {
 
     open func cancel() {
         logInfo("Response cancel \(self) isCanceled \(isCanceled) isDone \(isDone) " +
-                "isSuccess \(isSuccess) isFailed \(isFailed)")
-        if (isCanceled || isDone || isSuccess || isFailed) { return }
+            "isSuccess \(isSuccess) isFailed \(isFailed)")
+        if isCanceled || isDone || isSuccess || isFailed { return }
         isCanceled = true
-        self.message = CSStrings.operationCancelled
+        message = CSStrings.operationCancelled
         eventCancel.fire(self)
         onDoneImpl()
     }

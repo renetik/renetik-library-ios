@@ -6,6 +6,6 @@ import Foundation
 
 public extension NSMutableString {
     func replace(from: Int, to: Int, with replacement: String) {
-        replaceCharacters(in: NSRange(from..<to), with: replacement)
+        replaceCharacters(in: NSRange(from ..< to), with: replacement)
     }
 }

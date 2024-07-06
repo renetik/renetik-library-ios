@@ -13,7 +13,7 @@ public class CSJsonData: CSObject {
     private var childDataKey: String? = nil
     private var dataChanged = false
 
-    public required override init() {
+    override public required init() {
         super.init()
     }
 
@@ -29,7 +29,7 @@ public class CSJsonData: CSObject {
     open var data: [String: CSAny?] {
         childDataKey?.get { key in
             (_data[key] as? [String: CSAny?]) ??
-                    [String: CSAny?]().also { _data[key] = $0 }
+                [String: CSAny?]().also { _data[key] = $0 }
         } ?? _data
     }
 
@@ -50,14 +50,12 @@ public class CSJsonData: CSObject {
             dataChanged = true
         }
     }
-
-
 }
 
 class JsonDataOnValueChange {
     let data: CSJsonData, key: String, value: Any?
 
-    init(_ data: CSJsonData, _  key: String, _  value: Any?) {
+    init(_ data: CSJsonData, _ key: String, _ value: Any?) {
         self.data = data
         self.key = key
         self.value = value

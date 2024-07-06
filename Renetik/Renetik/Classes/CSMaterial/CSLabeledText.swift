@@ -6,14 +6,14 @@
 import Renetik
 
 open class CSLabeledText: UIView {
-
     public let label = UILabel()
     public let textView = UITextView()
     public var onClick: Func?
 
     @discardableResult
     func construct(_ container: UIView, _ title: String?, _ value: String?,
-                   _ dataTypes: UIDataDetectorTypes? = nil, _ onClick: Func? = nil) -> Self {
+                   _ dataTypes: UIDataDetectorTypes? = nil, _ onClick: Func? = nil) -> Self
+    {
         super.construct().width(200, height: 30)
         addLabel(title: title)
         addTextView(value: value)
@@ -28,7 +28,7 @@ open class CSLabeledText: UIView {
 
     private func addTextView(value: String?) {
         add(view: textView).from(left: label.right + 5)
-                .width(fromRight: 5, flexible: true).matchParentHeight()
+            .width(fromRight: 5, flexible: true).matchParentHeight()
         textView.textAlignment = .left
         textView.asLabel().textContainerInset = UIEdgeInsets(top: 5)
         textView.text(value)
@@ -60,7 +60,8 @@ public class CSLabeledView: UIView {
 
 public extension UIView {
     func addField(title: String? = nil, text: String? = nil,
-                  detect dataTypes: UIDataDetectorTypes? = nil, onClick: Func? = nil) {
+                  detect dataTypes: UIDataDetectorTypes? = nil, onClick: Func? = nil)
+    {
         CSLabeledText().construct(self, title, text, dataTypes, onClick)
     }
 

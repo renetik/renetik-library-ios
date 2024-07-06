@@ -2,11 +2,10 @@
 // Created by Rene Dohan on 12/17/19.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public class CSSearchBarController: CSMainController, UISearchBarDelegate {
-
     public let bar = UISearchBar.construct().resizeToFit()
     public var text: String { bar.text ?? "" }
 
@@ -16,7 +15,8 @@ public class CSSearchBarController: CSMainController, UISearchBarDelegate {
     @discardableResult
     public func construct(by parent: CSMainController,
                           placeHolder: String = CSStrings.searchPlaceholder,
-                          onTextChanged: @escaping (String) -> Void) -> Self {
+                          onTextChanged: @escaping (String) -> Void) -> Self
+    {
         super.constructAsViewLess(in: parent)
         self.onTextChanged = onTextChanged
         bar.delegate = self
@@ -41,7 +41,7 @@ public class CSSearchBarController: CSMainController, UISearchBarDelegate {
         searchBar.resignFirstResponder()
     }
 
-    public func searchBarShouldBeginEditing(_ bar: UISearchBar) -> Bool {
+    public func searchBarShouldBeginEditing(_: UISearchBar) -> Bool {
         let boolToReturn = searchBarShouldBeginEditing
         searchBarShouldBeginEditing = true
         return boolToReturn
@@ -58,13 +58,14 @@ public class CSSearchBarController: CSMainController, UISearchBarDelegate {
 
 // CSSearchBarController+CSTableController
 public extension CSSearchBarController {
-
     @discardableResult
-    public func construct<Row: CSTableControllerRow, Data>(
-            _ parent: CSMainController,
-            placeHolder: String = CSStrings.searchPlaceholder,
-            table: CSTableController<Row, Data>) -> Self
-            where Row: CustomStringConvertible {
+    func construct<Row: CSTableControllerRow, Data>(
+        _ parent: CSMainController,
+        placeHolder: String = CSStrings.searchPlaceholder,
+        table: CSTableController<Row, Data>
+    ) -> Self
+        where Row: CustomStringConvertible
+    {
         let tableFilter = TableFilter<Row, Data>()
         table.filter = tableFilter
         construct(by: parent, placeHolder: placeHolder) { string in
@@ -76,9 +77,9 @@ public extension CSSearchBarController {
 }
 
 private class TableFilter<Row: CSTableControllerRow, Data>: CSTableControllerFilter<Row, Data>
-        where Row: CustomStringConvertible {
-
+    where Row: CustomStringConvertible
+{
     public var searchText = ""
 
-    public override func filter(data: [Row]) -> [Row] { data.filter(bySearch: searchText) }
+    override public func filter(data: [Row]) -> [Row] { data.filter(bySearch: searchText) }
 }

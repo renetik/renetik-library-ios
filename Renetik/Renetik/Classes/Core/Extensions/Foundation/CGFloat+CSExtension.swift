@@ -7,7 +7,7 @@
 
 import CoreGraphics
 
-public extension CGFloat { //TODO: move to CoreGraphics
+public extension CGFloat { // TODO: move to CoreGraphics
     func plus(_ value: Int) -> CGFloat { self + CGFloat(value) }
 
     func multiply(_ value: Int) -> CGFloat { self * CGFloat(value) }

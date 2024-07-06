@@ -1,15 +1,14 @@
 //
-//  File.swift
+//  UIButton+CSExtension.swift
 //  Renetik
 //
 //  Created by Rene Dohan on 3/9/19.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UIButton {
-
     @discardableResult
     class func construct(_ image: UIImage) -> Self { construct().image(image) }
 
@@ -20,12 +19,12 @@ public extension UIButton {
     }
 
     @discardableResult
-    public func alignContent(_ alignment: ContentHorizontalAlignment) -> Self {
+    func alignContent(_ alignment: ContentHorizontalAlignment) -> Self {
         contentHorizontalAlignment = alignment
         return self
     }
 
-    public var text: String {
+    var text: String {
         get { title(for: .normal) ?? "" }
         set(value) { text(value) }
     }
@@ -36,7 +35,7 @@ public extension UIButton {
         return self
     }
 
-    public var font: UIFont? {
+    var font: UIFont? {
         get { titleLabel?.font }
         set(value) { titleLabel?.font = value }
     }
@@ -48,21 +47,21 @@ public extension UIButton {
     }
 
     @discardableResult
-    public func text(_ title: String) -> Self {
+    func text(_ title: String) -> Self {
         setTitle(title, for: .normal)
         return self
     }
 
     @discardableResult
-    public func image(_ image: UIImage) -> Self {
+    func image(_ image: UIImage) -> Self {
         setImage(image, for: .normal)
         return self
     }
 
     @discardableResult
-    public func image(template image: UIImage) -> Self { self.image(image.template) }
+    func image(template image: UIImage) -> Self { self.image(image.template) }
 
-    public var textColor: UIColor? {
+    var textColor: UIColor? {
         get { titleColor(for: .normal) }
         set(value) { setTitleColor(value, for: .normal) }
     }

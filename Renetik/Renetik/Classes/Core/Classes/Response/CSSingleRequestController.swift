@@ -3,12 +3,11 @@
 // Copyright (c) 2019 Renetik Software. All rights reserved.
 //
 
-import UIKit
 import Renetik
 import RenetikObjc
+import UIKit
 
 public class CSSingleRequestController<Data: AnyObject>: CSMainController {
-
     public var stringRequestLoading = CSStrings.requestLoading
     public var stringRequestFailed = CSStrings.requestFailed
     public var stringRequestRetry = CSStrings.requestRetry
@@ -19,8 +18,9 @@ public class CSSingleRequestController<Data: AnyObject>: CSMainController {
     private var progressBlockedView: (CSResponseController & CSHasDialog)!
 
     public func construct(_ parent: UIViewController,
-                          _ progressBlockedView: (CSResponseController & CSHasDialog),
-                          _ request: @escaping () -> CSResponse<Data>) -> Self {
+                          _ progressBlockedView: CSResponseController & CSHasDialog,
+                          _ request: @escaping () -> CSResponse<Data>) -> Self
+    {
         super.constructAsViewLess(in: parent)
         self.progressBlockedView = progressBlockedView
         self.request = request
@@ -30,19 +30,19 @@ public class CSSingleRequestController<Data: AnyObject>: CSMainController {
     public func reload() {
         reloadResponse?.cancel()
         progressBlockedView.show(request(), title: stringRequestLoading, canCancel: data.notNil)
-                .onSuccess(onSuccess).onFailed(onFailed).onDone(onDone)
+            .onSuccess(onSuccess).onFailed(onFailed).onDone(onDone)
     }
 
     public func onSuccess(data: Data) {
         self.data = data
     }
 
-    public func onFailed(response: CSResponseProtocol) {
+    public func onFailed(response _: CSResponseProtocol) {
         progressBlockedView.show(message: stringRequestFailed,
-                positive: CSDialogAction(title: stringRequestRetry, action: reload))
+                                 positive: CSDialogAction(title: stringRequestRetry, action: reload))
     }
 
-    public func onDone(data: Data?) {
-        self.reloadResponse = nil
+    public func onDone(data _: Data?) {
+        reloadResponse = nil
     }
 }

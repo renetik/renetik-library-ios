@@ -5,7 +5,7 @@
 import Foundation
 
 public extension URL {
-    public init(_ url: String) {
+    init(_ url: String) {
         self.init(string: url)!
     }
 }

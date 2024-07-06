@@ -42,10 +42,10 @@ public class CSCocoaLumberjackFormatter: NSObject, DDLogFormatter {
         return "\(dateAndTime) \(logLevel) \(message.fileName ?? "") \(message.function) \(message.line) = \(message.message)"
     }
 
-    public func didAdd(to logger: DDLogger) {
+    public func didAdd(to _: DDLogger) {
         loggerCount += 1
         assert(loggerCount <= 1, "This logger isn't thread-safe")
     }
 
-    public func willRemove(from logger: DDLogger) { loggerCount -= 1 }
+    public func willRemove(from _: DDLogger) { loggerCount -= 1 }
 }

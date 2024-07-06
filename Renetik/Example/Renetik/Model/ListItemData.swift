@@ -8,6 +8,4 @@
 
 import RenetikObjc
 
-class ListItemData: CSDictionaryJsonData {
-}
-
+class ListItemData: CSDictionaryJsonData {}

@@ -6,9 +6,8 @@ import Foundation
 import UIKit
 
 public extension UIWindow {
-
     class func construct(_ controller: UIViewController) -> Self {
-        let window: Self = self.construct()
+        let window: Self = construct()
         window.rootViewController = controller
         window.makeKeyAndVisible()
         return window
@@ -27,6 +26,4 @@ public extension UIWindow {
         })
         return self
     }
-
-
 }

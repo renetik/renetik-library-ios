@@ -3,12 +3,11 @@
 // Copyright (c) 2018 Renetik Software. All rights reserved.
 //
 
-import UIKit
-import RenetikObjc
 import BlocksKit
+import RenetikObjc
+import UIKit
 
 public extension UIView {
-
     class func construct(owner: NSObject? = nil, xib: String) -> Self {
         let arrayOfXibObjects = Bundle.main.loadNibNamed(xib, owner: owner, options: nil)
         let instance = (arrayOfXibObjects?[0] as? Self)?.construct()
@@ -34,7 +33,7 @@ public extension UIView {
 //    class func construct() -> Self { Self().construct() }
 
     class func construct(defaultSize: Bool = false) -> Self {
-        let this: Self = Self().construct()
+        let this = Self().construct()
         if defaultSize { this.defaultSize() }
         return this
     }
@@ -107,7 +106,7 @@ public extension UIView {
 
     @objc var isVisible: Bool {
         get { !isHidden }
-        set(value) { self.isHidden = !value }
+        set(value) { isHidden = !value }
     }
 
     @discardableResult
@@ -171,23 +170,23 @@ public extension UIView {
     func fadeTo(visible: Bool) { invoke { visible.isTrue { fadeIn() }.elseDo { fadeOut() } } }
 
     func fadeIn(duration: TimeInterval = defaultAnimationTime, onDone: Func? = nil) {
-        if isVisible && alpha == 1 { return }
+        if isVisible, alpha == 1 { return }
         isVisible = true
         UIView.animate(withDuration: duration, delay: 0,
-                options: [.curveEaseInOut, .allowUserInteraction, .beginFromCurrentState],
-                animations: { self.alpha = 1.0 },
-                completion: { _ in onDone?() })
+                       options: [.curveEaseInOut, .allowUserInteraction, .beginFromCurrentState],
+                       animations: { self.alpha = 1.0 },
+                       completion: { _ in onDone?() })
     }
 
     func fadeOut(duration: TimeInterval = defaultAnimationTime, onDone: Func? = nil) {
         if isHidden || alpha == 0 { return }
         UIView.animate(withDuration: duration, delay: 0,
-                options: [.curveEaseInOut, .allowUserInteraction, .beginFromCurrentState],
-                animations: { self.alpha = 0.0 },
-                completion: { isFinished in
-                    if isFinished { self.alpha = 1; self.hide() }
-                    onDone?()
-                })
+                       options: [.curveEaseInOut, .allowUserInteraction, .beginFromCurrentState],
+                       animations: { self.alpha = 0.0 },
+                       completion: { isFinished in
+                           if isFinished { self.alpha = 1; self.hide() }
+                           onDone?()
+                       })
     }
 
     func debugLayoutBySubviewsRandomBorderColor() {

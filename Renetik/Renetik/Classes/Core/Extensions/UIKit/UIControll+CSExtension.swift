@@ -2,12 +2,11 @@
 // Created by Rene Dohan on 1/25/20.
 //
 
-import UIKit
-import RenetikObjc
 import BlocksKit
+import RenetikObjc
+import UIKit
 
 public extension UIControl {
-
     @discardableResult
     @objc override open func onClick(_ block: @escaping Func) -> Self {
         onTouchUp(block)

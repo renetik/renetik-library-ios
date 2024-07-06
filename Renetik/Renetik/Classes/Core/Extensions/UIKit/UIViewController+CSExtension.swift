@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UIViewController {
-
     @discardableResult
     func push() -> Self {
         navigation.push(self)
@@ -72,7 +71,7 @@ public extension UIViewController {
     }
 
     @discardableResult
-    public func present(from view: UIView) -> Self {
+    func present(from view: UIView) -> Self {
         modalPresentationStyle = .popover
         popoverPresentationController?.sourceView = view.superview
         popoverPresentationController?.sourceRect = view.frame
@@ -81,14 +80,14 @@ public extension UIViewController {
     }
 
     @discardableResult
-    public func present(from item: UIBarButtonItem) -> Self {
+    func present(from item: UIBarButtonItem) -> Self {
         modalPresentationStyle = .popover
         popoverPresentationController?.barButtonItem = item
         present()
         return self
     }
 
-    public func present() -> Self {
+    func present() -> Self {
         navigation.last!.present(self, animated: true, completion: nil); return self
     }
 
@@ -98,7 +97,7 @@ public extension UIViewController {
 
     func findControllerInNavigation() -> UIViewController? {
         var foundController: UIViewController? = self
-        while foundController.notNil && foundController?.parent != navigation {
+        while foundController.notNil, foundController?.parent != navigation {
             foundController = foundController?.parent
         }
         return foundController?.parent == navigation ? foundController : nil

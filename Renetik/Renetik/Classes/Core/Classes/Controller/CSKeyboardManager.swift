@@ -16,8 +16,9 @@ public class CSKeyboardManager: CSMainController {
 
     @discardableResult
     public func construct(
-            _ parent: UIViewController,
-            _ onKeyboardChange: ((_ keyboardHeight: CGFloat) -> Void)? = nil) -> Self {
+        _ parent: UIViewController,
+        _ onKeyboardChange: ((_ keyboardHeight: CGFloat) -> Void)? = nil
+    ) -> Self {
         super.constructAsViewLess(in: parent)
         self.onKeyboardChange = onKeyboardChange
         observe(notification: UIResponder.keyboardDidShowNotification, callback: keyboardDidShow)
@@ -32,7 +33,7 @@ public class CSKeyboardManager: CSMainController {
         onKeyboardChange?(keyboardHeight)
     }
 
-    private func keyboardDidHide(_ note: Notification) {
+    private func keyboardDidHide(_: Notification) {
         keyboardHeight = 0
         onKeyboardHide.fire()
         onKeyboardChange?(0)

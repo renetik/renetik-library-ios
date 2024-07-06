@@ -4,8 +4,7 @@
 
 import CoreGraphics
 
-public extension CGRect { //TODO: move to CoreGraphics
-
+public extension CGRect { // TODO: move to CoreGraphics
     init(size: CGFloat) {
         self.init(width: size, height: size)
     }
@@ -20,6 +19,7 @@ public extension CGRect { //TODO: move to CoreGraphics
         get { size.width }
         set { size.width = newValue }
     }
+
     var height: CGFloat {
         get { size.height }
         set { size.height = newValue }

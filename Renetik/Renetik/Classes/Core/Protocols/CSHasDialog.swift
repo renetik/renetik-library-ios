@@ -17,7 +17,7 @@ public struct CSDialogAction {
     public let title: String?, action: Func
 
     public init(action: @escaping Func) {
-        self.title = nil
+        title = nil
         self.action = action
     }
 
@@ -36,25 +36,27 @@ public protocol CSHasDialog {
 
 public extension CSHasDialog {
     @discardableResult
-    public func show(message: String,
-                     positiveTitle: String = CSStrings.dialogYes,
-                     onPositive: Func? = nil,
-                     onCanceled: Func? = nil,
-                     canCancel: Bool = true) -> CSHasDialogVisible {
+    func show(message: String,
+              positiveTitle: String = CSStrings.dialogYes,
+              onPositive: Func? = nil,
+              onCanceled: Func? = nil,
+              canCancel: Bool = true) -> CSHasDialogVisible
+    {
         show(title: nil, message: message,
-                positive: CSDialogAction(title: positiveTitle, action: onPositive ?? {}),
-                negative: nil, cancel: canCancel ? CSDialogAction(action: onCanceled ?? {}) : nil)
+             positive: CSDialogAction(title: positiveTitle, action: onPositive ?? {}),
+             negative: nil, cancel: canCancel ? CSDialogAction(action: onCanceled ?? {}) : nil)
     }
 
     @discardableResult
-    public func show(message: String, onPositive: Func? = nil) -> CSHasDialogVisible {
+    func show(message: String, onPositive: Func? = nil) -> CSHasDialogVisible {
         show(message: message, positiveTitle: CSStrings.dialogYes, onPositive: onPositive)
     }
 
     @discardableResult
-    public func show(title: String? = nil, message: String,
-                     positive: CSDialogAction?, negative: CSDialogAction? = nil) -> CSHasDialogVisible {
+    func show(title: String? = nil, message: String,
+              positive: CSDialogAction?, negative: CSDialogAction? = nil) -> CSHasDialogVisible
+    {
         show(title: title, message: message, positive: positive,
-                negative: negative, cancel: nil)
+             negative: negative, cancel: nil)
     }
 }

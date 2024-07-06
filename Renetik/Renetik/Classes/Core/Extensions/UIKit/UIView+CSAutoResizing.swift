@@ -3,17 +3,16 @@
 //
 
 import Foundation
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UIView {
-
     @discardableResult
     func setAutoresizingDefaults() -> Self {
         translatesAutoresizingMaskIntoConstraints = true
         autoresizingMask = []
         flexibleLeft().flexibleTop().flexibleRight().flexibleBottom()
-                .fixedWidth().fixedHeight()
+            .fixedWidth().fixedHeight()
         return self
     }
 

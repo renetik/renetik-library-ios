@@ -4,12 +4,11 @@
 //  Created by Rene Dohan on 7/8/19.
 //
 
-import UIKit
 import Renetik
 import RenetikObjc
+import UIKit
 
 public extension UITabBar {
-
     class var imageSize: CGFloat { 30 }
 
     @discardableResult

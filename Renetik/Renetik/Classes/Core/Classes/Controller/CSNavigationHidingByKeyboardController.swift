@@ -7,12 +7,11 @@
 import RenetikObjc
 
 public class CSNavigationHidingByKeyboardController: CSMainController {
-
     private var navigationBarHidden = false
     private let keyboardManager = CSKeyboardManager()
 
     @discardableResult
-    public override func construct(_ parent: UIViewController) -> Self {
+    override public func construct(_ parent: UIViewController) -> Self {
         super.constructAsViewLess(in: parent)
         keyboardManager.construct(self, onKeyboardChange)
         return self

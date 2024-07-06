@@ -5,12 +5,11 @@
 import Foundation
 
 public extension Bundle {
-
-    public class var shortVersion: String {
+    class var shortVersion: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
     }
 
-    public class var build: String {
+    class var build: String {
         Bundle.main.object(forInfoDictionaryKey: kCFBundleVersionKey as String) as? String ?? ""
     }
 }

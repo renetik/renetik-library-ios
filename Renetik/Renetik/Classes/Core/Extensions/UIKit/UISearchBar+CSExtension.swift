@@ -2,11 +2,10 @@
 // Created by Rene Dohan on 2/15/20.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UISearchBar {
-
     var textColor: UIColor? {
         get { textFieldInsideSearchBar?.textColor }
         set(value) { textFieldInsideSearchBar?.textColor = value }

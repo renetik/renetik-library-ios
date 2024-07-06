@@ -5,8 +5,8 @@
 
 import Nimble
 import Quick
-import XCTest
 import Renetik
+import XCTest
 
 class TestClass: NSObject {
     var testString = ""
@@ -21,7 +21,7 @@ class CSLangTest: XCTestCase {
     let optionalStringWithValue: String? = "initial"
     let optionalStringWithNil: String? = nil
 
-    let nonOptionalTestClass: TestClass = TestClass("initial")
+    let nonOptionalTestClass: TestClass = .init("initial")
     let optionalTestClassWithValue: TestClass? = TestClass("initial")
     let optionalTestClassWithNil: TestClass? = nil
 
@@ -95,7 +95,7 @@ class CSLangTest: XCTestCase {
         let array: NSMutableArray? = NSMutableArray()
         array?.add("test string 1")
         array?.add("test string 2")
-        let stringArray: [String] = [String].cast(array)
+        let stringArray = [String].cast(array)
         XCTAssertEqual("test string 2", stringArray[1])
     }
 }

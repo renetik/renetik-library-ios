@@ -5,7 +5,6 @@
 import Foundation
 
 public extension UIImageView {
-
     class func construct(_ image: UIImage) -> Self {
         construct().image(image)
     }
@@ -23,7 +22,7 @@ public extension UIImageView {
     func image(_ image: UIImage) -> Self { invoke { self.image = image } }
 
     @discardableResult
-    public func image(template image: UIImage) -> Self { self.image(image.template) }
+    func image(template image: UIImage) -> Self { self.image(image.template) }
 
     func stretchableImage(leftCapWidth: Int, topCapHeight: Int) -> Self {
         image = image!.stretchableImage(withLeftCapWidth: leftCapWidth, topCapHeight: topCapHeight)
@@ -50,5 +49,4 @@ public extension UIImageView {
         }
         return self
     }
-
 }

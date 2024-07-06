@@ -6,10 +6,9 @@ import Foundation
 import RenetikObjc
 
 public class CSSequenceResponse<Data: AnyObject>: CSResponse<Data> {
-
     var response: CSResponseProtocol!
 
-    public override init() { super.init() }
+    override public init() { super.init() }
 
     @discardableResult
     public func add<Data: AnyObject, Response: CSResponse<Data>>(_ response: Response) -> Response {
@@ -17,7 +16,7 @@ public class CSSequenceResponse<Data: AnyObject>: CSResponse<Data> {
         return response
     }
 
-    public override func cancel() {
+    override public func cancel() {
         super.cancel()
         response.cancel()
     }

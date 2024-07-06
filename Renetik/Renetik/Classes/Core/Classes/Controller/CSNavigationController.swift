@@ -2,8 +2,8 @@
 // Created by Rene Dohan on 12/22/19.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public enum CSForcedOrientation: Int {
     case none
@@ -12,7 +12,6 @@ public enum CSForcedOrientation: Int {
 }
 
 open class CSNavigationController: UINavigationController, UINavigationBarDelegate {
-
     private(set) var instance: CSNavigationController!
     private(set) var lastPopped: UIViewController?
     private var navigationBarDelegate: UINavigationBarDelegate?
@@ -73,7 +72,7 @@ open class CSNavigationController: UINavigationController, UINavigationBarDelega
     private var orientationDidChangeNotificationObserverToken: NSObjectProtocol?
 
     public func force(orientation: CSForcedOrientation) {
-        self.forcedOrientation = orientation
+        forcedOrientation = orientation
         orientationToReturnToFromForcedOrientation = UIDeviceOrientation(rawValue: UIScreen.orientation.rawValue)
         if (forcedOrientation == .portrait || forcedOrientation == .none) && UIScreen.isLandscape {
             UIDevice.set(orientation: .portrait)
@@ -81,10 +80,10 @@ open class CSNavigationController: UINavigationController, UINavigationBarDelega
             UIDevice.set(orientation: .landscapeLeft)
         }
         orientationDidChangeNotificationObserverToken =
-                NotificationCenter.add(observer: UIDevice.orientationDidChangeNotification) { _ in
-                    self.orientationToReturnToFromForcedOrientation = UIDevice.current.orientation
-                    NotificationCenter.remove(observer: self.orientationDidChangeNotificationObserverToken)
-                }
+            NotificationCenter.add(observer: UIDevice.orientationDidChangeNotification) { _ in
+                self.orientationToReturnToFromForcedOrientation = UIDevice.current.orientation
+                NotificationCenter.remove(observer: self.orientationDidChangeNotificationObserverToken)
+            }
     }
 
     public func cancelForcedOrientation() {

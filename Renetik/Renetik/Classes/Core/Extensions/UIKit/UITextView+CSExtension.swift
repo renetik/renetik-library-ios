@@ -2,12 +2,12 @@
 // Created by Rene Dohan on 1/25/20.
 //
 
-import UIKit
-import RenetikObjc
 import BlocksKit
+import RenetikObjc
+import UIKit
 
 public struct CSTextViewClearButtonAppearance {
-    fileprivate let titleColor: UIColor?
+    private let titleColor: UIColor?
 
     public init(titleColor: UIColor) {
         self.titleColor = titleColor
@@ -15,7 +15,6 @@ public struct CSTextViewClearButtonAppearance {
 }
 
 public extension UITextView {
-
     func delegate(_ delegate: UITextViewDelegate) -> Self { self.delegate = delegate; return self }
 
     @discardableResult
@@ -25,7 +24,7 @@ public extension UITextView {
         let htmlData = html.data(using: .unicode, allowLossyConversion: true)
         htmlData.notNil { data in
             attributedText = try? NSAttributedString(data: data, options: [
-                .documentType: NSAttributedString.DocumentType.html, .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue)
+                .documentType: NSAttributedString.DocumentType.html, .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue),
             ], documentAttributes: nil)
         }
         return self
@@ -49,9 +48,9 @@ public extension UITextView {
     }
 
     @discardableResult
-    override public func onTap(_ block: @escaping Func) -> Self {
-        self.isEditable = false
-        self.isSelectable = false
+    override func onTap(_ block: @escaping Func) -> Self {
+        isEditable = false
+        isSelectable = false
         super.onTap(block)
         return self
     }
@@ -69,7 +68,7 @@ public extension UITextView {
 //    }
 
     @discardableResult
-    public func text(_ value: String?) -> Self { invoke { self.text = value } }
+    func text(_ value: String?) -> Self { invoke { self.text = value } }
 
     @discardableResult
     func onTextChange(in parent: CSViewController, _ function: @escaping (UITextView) -> Void) -> Self {
@@ -82,7 +81,7 @@ public extension UITextView {
     @discardableResult
     func heightToFit(lines numberOfLines: Int) -> Self {
         let currentWidth = width; let currentText = text; var linesText = "line"
-        for i in 0..<numberOfLines - 1 {
+        for i in 0 ..< numberOfLines - 1 {
             linesText += "\n line"
         }
         text(linesText).resizeToFit().text(currentText).width(currentWidth)
@@ -102,18 +101,18 @@ public extension UITextView {
         return self
     }
 
-    //TODO: text(align:
+    // TODO: text(align:
     @discardableResult
     func alignText(_ alignment: NSTextAlignment) -> Self { invoke { self.textAlignment = alignment } }
 
-    //TODO: text(color:
+    // TODO: text(color:
     @discardableResult
     func textColor(_ textColor: UIColor) -> Self { invoke { self.textColor = textColor } }
 
     @discardableResult
     func font(_ font: UIFont) -> Self { invoke { self.font = font } }
 
-    //TODO: font(size:
+    // TODO: font(size:
     @discardableResult
     func fontSize(_ size: CGFloat) -> Self { invoke { self.fontSize = size } }
 
@@ -122,7 +121,7 @@ public extension UITextView {
         set { font = font!.withSize(newValue) }
     }
 
-    //TODO: font(style:
+    // TODO: font(style:
     @discardableResult
     func fontStyle(_ style: UIFont.TextStyle) -> Self { invoke { self.fontStyle = style } }
 

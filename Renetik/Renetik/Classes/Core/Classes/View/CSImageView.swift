@@ -6,7 +6,6 @@ import Foundation
 import UIKit
 
 public class CSImageView: UIImageView {
-
     enum HorizontalAlignment {
         case left, center, right
     }
@@ -18,13 +17,13 @@ public class CSImageView: UIImageView {
     var horizontalAlignment: HorizontalAlignment = .center
     var verticalAlignment: VerticalAlignment = .bottom
 
-    public override var image: UIImage? {
+    override public var image: UIImage? {
         didSet {
             updateContentsRect()
         }
     }
 
-    public override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         updateContentsRect()
     }
@@ -48,21 +47,18 @@ public class CSImageView: UIImageView {
 
             if case .left = horizontalAlignment {
                 xOffset = -(scaledImageWidth - viewBounds.size.width) / 2
-            }
-            else if case .right = horizontalAlignment {
+            } else if case .right = horizontalAlignment {
                 xOffset = (scaledImageWidth - viewBounds.size.width) / 2
             }
 
             contentsRect.origin.x = xOffset / scaledImageWidth
-        }
-        else {
+        } else {
             let scaledImageHeight = viewBounds.size.width / imageFactor
             var yOffset: CGFloat = 0.0
 
             if case .top = verticalAlignment {
                 yOffset = -(scaledImageHeight - viewBounds.size.height) / 2
-            }
-            else if case .bottom = verticalAlignment {
+            } else if case .bottom = verticalAlignment {
                 yOffset = (scaledImageHeight - viewBounds.size.height) / 2
             }
 
@@ -71,5 +67,4 @@ public class CSImageView: UIImageView {
 
         layer.contentsRect = contentsRect
     }
-
 }

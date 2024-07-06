@@ -2,13 +2,12 @@
 // Created by Rene Dohan on 1/4/20.
 //
 
+import BlocksKit
 import Foundation
 import UIKit
-import BlocksKit
 
 public extension UITextField {
-
-    @objc func caretRect(for position: UITextPosition) -> CGRect { CGRect.zero }
+    @objc func caretRect(for _: UITextPosition) -> CGRect { CGRect.zero }
 
     @discardableResult
     func clear() -> Self { invoke { self.text = "" } }
@@ -35,7 +34,7 @@ public extension UITextField {
 
     @discardableResult
     func onChange(_ function: @escaping (UITextField) -> Void) -> Self {
-        bk_addObserver(forKeyPath: "text") { argument in function(self) }
+        bk_addObserver(forKeyPath: "text") { _ in function(self) }
         return self
     }
 
@@ -55,27 +54,27 @@ public extension UITextField {
         let htmlData = html.data(using: .unicode, allowLossyConversion: true)
         htmlData.notNil { data in
             attributedText = try? NSAttributedString(data: data, options: [
-                .documentType: NSAttributedString.DocumentType.html, .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue)
+                .documentType: NSAttributedString.DocumentType.html, .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue),
             ], documentAttributes: nil)
         }
         return self
     }
 
     @discardableResult
-    public func text(_ value: String?) -> Self { invoke { self.text = value } }
+    func text(_ value: String?) -> Self { invoke { self.text = value } }
 
-    //TODO: text(align:
+    // TODO: text(align:
     @discardableResult
     func alignText(_ alignment: NSTextAlignment) -> Self { invoke { self.textAlignment = alignment } }
 
-    //TODO: text(color:
+    // TODO: text(color:
     @discardableResult
     func textColor(_ textColor: UIColor) -> Self { invoke { self.textColor = textColor } }
 
     @discardableResult
     func font(_ font: UIFont) -> Self { invoke { self.font = font } }
 
-    //TODO: font(size:
+    // TODO: font(size:
     @discardableResult
     func fontSize(_ size: CGFloat) -> Self { invoke { self.fontSize = size } }
 
@@ -84,7 +83,7 @@ public extension UITextField {
         set { font = font!.withSize(newValue) }
     }
 
-    //TODO: font(style:
+    // TODO: font(style:
     @discardableResult
     func fontStyle(_ style: UIFont.TextStyle) -> Self { invoke { self.fontStyle = style } }
 

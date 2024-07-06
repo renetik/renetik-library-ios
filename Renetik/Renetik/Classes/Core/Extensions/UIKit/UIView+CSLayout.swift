@@ -3,11 +3,10 @@
 //
 
 import Foundation
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UIView {
-
     @discardableResult
     func from(left: CGFloat) -> Self { invoke { self.left = left; fixedLeft() } }
 
@@ -52,14 +51,14 @@ public extension UIView {
 
     @discardableResult
     func from(_ view: UIView?, right: CGFloat)
-                    -> Self { from(right: view?.get { $0.leftFromRight + right } ?? right) }
+        -> Self { from(right: view?.get { $0.leftFromRight + right } ?? right) }
 
     @discardableResult
     func from(bottom: CGFloat) -> Self { invoke { self.fromBottom = bottom; fixedBottom() } }
 
     @discardableResult
     func from(_ view: UIView?, bottom: CGFloat)
-                    -> Self { from(bottom: view?.get { $0.topFromBottom + bottom } ?? bottom) }
+        -> Self { from(bottom: view?.get { $0.topFromBottom + bottom } ?? bottom) }
 
     @discardableResult
     func from(bottomRight: CGFloat) -> Self { from(bottom: bottomRight, right: bottomRight) }
@@ -197,7 +196,7 @@ public extension UIView {
     }
 
     @discardableResult
-    func height(from view: UIView, bottom: CGFloat, flexible: Bool = false) -> Self {
+    func height(from view: UIView, bottom: CGFloat, flexible _: Bool = false) -> Self {
         height(fromBottom: view.topFromBottom + bottom)
     }
 
@@ -248,7 +247,7 @@ public extension UIView {
         return self
     }
 
-    //TODO!!! Write tests and doc
+    // TODO!!! Write tests and doc
     @discardableResult
     func alignHorizontalLayout() -> Self {
         assert(superview.notNil, "Needs to have superview")
@@ -264,7 +263,7 @@ public extension UIView {
         return self
     }
 
-    //TODO!!! Write tests and doc, almost same as fromPrevious
+    // TODO!!! Write tests and doc, almost same as fromPrevious
     @discardableResult
     func alignHorizontal(margin: CGFloat = 0) -> Self {
         assert(superview.notNil, "Needs to have superview")
@@ -274,7 +273,7 @@ public extension UIView {
         return self
     }
 
-    //TODO!!! Write tests and doc
+    // TODO!!! Write tests and doc
     @discardableResult
     func alignVerticalLayout() -> Self {
         assert(superview.notNil, "Needs to have superview")
@@ -290,7 +289,7 @@ public extension UIView {
         return self
     }
 
-    //TODO!!! Write tests and doc , almost same as fromPrevious
+    // TODO!!! Write tests and doc , almost same as fromPrevious
     @discardableResult
     func alignVertical(margin: CGFloat = 0) -> Self {
         assert(superview.notNil, "Needs to have superview")
@@ -300,11 +299,11 @@ public extension UIView {
         return self
     }
 
-    //TODO!!! Write tests and doc
+    // TODO!!! Write tests and doc
     @discardableResult
     func alignHorizontalGrid(margin: CGFloat = 0, columns: Int = 1) -> Self {
         assert(superview.notNil, "Needs to have superview")
-        self.width = (superview!.width - (margin * (CGFloat(columns) + 1))) / CGFloat(columns);
+        width = (superview!.width - (margin * (CGFloat(columns) + 1))) / CGFloat(columns)
         superview!.findPreviousVisible(of: self).notNil { previous in
             if previous.right + margin + self.width + margin <= width {
                 self.from(left: previous.right + margin, top: previous.top)
@@ -315,11 +314,11 @@ public extension UIView {
         return self
     }
 
-    //TODO!!! Write tests and doc
+    // TODO!!! Write tests and doc
     @discardableResult
     func alignVerticalGrid(margin: CGFloat = 0, rows: Int = 1) -> Self {
         assert(superview.notNil, "Needs to have superview")
-        self.height = (superview!.height - (margin * (CGFloat(rows) + 1))) / CGFloat(rows);
+        height = (superview!.height - (margin * (CGFloat(rows) + 1))) / CGFloat(rows)
         superview!.findPreviousVisible(of: self).notNil { previous in
             if previous.bottom + margin + self.height + margin <= height {
                 self.from(left: previous.left, top: previous.bottom + margin)

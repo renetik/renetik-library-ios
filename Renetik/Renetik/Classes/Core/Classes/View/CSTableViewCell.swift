@@ -10,7 +10,6 @@ public protocol CSTableHeightCalculatingCell {
 }
 
 open class CSTableViewCell: UITableViewCell {
-
     let layoutFunctions: CSEvent<Void> = event()
 
     @discardableResult

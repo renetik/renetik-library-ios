@@ -3,14 +3,13 @@
 //
 
 import Foundation
-import UIKit
 import RenetikObjc
+import UIKit
 import XLPagerTabStrip
 
 public typealias CSXLButtonBarPagerChildController = CSMainController & IndicatorInfoProvider
 
 public class CSXLButtonBarPagerController: CSMainController, PagerTabStripIsProgressiveDelegate {
-
     public let pager = CSButtonBarPagerTabStripViewController()
 
     fileprivate var controllers = [CSXLButtonBarPagerChildController]()
@@ -26,28 +25,29 @@ public class CSXLButtonBarPagerController: CSMainController, PagerTabStripIsProg
         return self
     }
 
-    public override func onViewWillAppearFirstTime() {
+    override public func onViewWillAppearFirstTime() {
         super.onViewWillAppearFirstTime()
         updateControllersVisible(at: pager.currentIndex, animated: false)
         pager.delegate = self
     }
 
-    public override func onViewDidAppearFirstTime() {
+    override public func onViewDidAppearFirstTime() {
         super.onViewDidAppearFirstTime()
         pager.reloadPagerTabStripView()
         pager.delegate = self
     }
 
-    public func updateIndicator(for viewController: PagerTabStripViewController, fromIndex: Int, toIndex: Int) {
+    public func updateIndicator(for _: PagerTabStripViewController, fromIndex _: Int, toIndex _: Int) {
         updateControllersVisible(at: pager.currentIndex, animated: true)
     }
 
-    public func updateIndicator(for viewController: PagerTabStripViewController, fromIndex: Int, toIndex: Int,
-                                withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
+    public func updateIndicator(for _: PagerTabStripViewController, fromIndex _: Int, toIndex _: Int,
+                                withProgressPercentage _: CGFloat, indexWasChanged: Bool)
+    {
         if indexWasChanged { updateControllersVisible(at: pager.currentIndex, animated: false) }
     }
 
-    func updateControllersVisible(at index: Int, animated: Bool) {
+    func updateControllersVisible(at _: Int, animated: Bool) {
         for controller in controllers {
             if controller !== currentController { controller.isShowing = false }
         }
@@ -70,10 +70,11 @@ public class CSXLButtonBarPagerController: CSMainController, PagerTabStripIsProg
         updateControllersVisible(at: pager.currentIndex, animated: false)
     }
 
-    public override func onViewDidTransition(to size: CGSize,
-                                             _ context: UIViewControllerTransitionCoordinatorContext) {
+    override public func onViewDidTransition(to size: CGSize,
+                                             _ context: UIViewControllerTransitionCoordinatorContext)
+    {
         super.onViewDidTransition(to: size, context)
-        self.pager.containerView.scrollTo(page: self.pager.currentIndex, of: self.controllers.count)
+        pager.containerView.scrollTo(page: pager.currentIndex, of: controllers.count)
     }
 
     public func setBar(visible: Bool) {
@@ -87,7 +88,7 @@ public class CSXLButtonBarPagerController: CSMainController, PagerTabStripIsProg
         }
     }
 
-    public var currentIndex: Int { self.pager.currentIndex }
+    public var currentIndex: Int { pager.currentIndex }
 
     @discardableResult
     public func moveToController(index: Int) -> Self { invoke { self.pager.moveToViewController(at: index) } }
@@ -97,43 +98,45 @@ public class CSXLButtonBarPagerController: CSMainController, PagerTabStripIsProg
 }
 
 public class CSButtonBarPagerTabStripViewController: ButtonBarPagerTabStripViewController {
-
     var parentController: CSXLButtonBarPagerController!
 
     func construct(_ parent: CSXLButtonBarPagerController) -> Self {
-        self.parentController = parent
+        parentController = parent
         return self
     }
 
-    public override func viewControllers(
-            for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
+    override public func viewControllers(
+        for _: PagerTabStripViewController) -> [UIViewController]
+    {
         parentController.controllers
     }
 
     // PagerTabStripDelegate delegate was not called by super implementation
-    public override func updateIndicator(for viewController: PagerTabStripViewController,
-                                         fromIndex: Int, toIndex: Int) {
+    override public func updateIndicator(for viewController: PagerTabStripViewController,
+                                         fromIndex: Int, toIndex: Int)
+    {
         super.updateIndicator(for: viewController, fromIndex: fromIndex, toIndex: toIndex)
         parentController.updateIndicator(for: viewController, fromIndex: fromIndex, toIndex: toIndex)
     }
 
     // PagerTabStripIsProgressiveDelegate delegate was not called by super implementation
-    public override func updateIndicator(for viewController: PagerTabStripViewController, fromIndex: Int, toIndex: Int,
-                                         withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
+    override public func updateIndicator(for viewController: PagerTabStripViewController, fromIndex: Int, toIndex: Int,
+                                         withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool)
+    {
         if fromIndex == 0 && toIndex == 0 && progressPercentage == 1 && indexWasChanged == false { return }
         super.updateIndicator(for: viewController, fromIndex: fromIndex, toIndex: toIndex,
-                withProgressPercentage: progressPercentage, indexWasChanged: indexWasChanged)
+                              withProgressPercentage: progressPercentage, indexWasChanged: indexWasChanged)
         parentController.updateIndicator(for: viewController, fromIndex: fromIndex, toIndex: toIndex,
-                withProgressPercentage: progressPercentage, indexWasChanged: indexWasChanged)
+                                         withProgressPercentage: progressPercentage, indexWasChanged: indexWasChanged)
     }
 
     // Fixes overlapping of content by bezels on iphone x and similar
     override open func updateContent() {
         super.updateContent()
         for (index, childController) in parentController.controllers.enumerated() {
-            childController.view.frame = CGRect(x: offsetForChild(at: index) + self.safeArea.left,
-                    y: 0, width: view.bounds.width - (view.safeAreaInsets.left + self.safeArea.right),
-                    height: containerView.bounds.height)
+            childController.view.frame = CGRect(x: offsetForChild(at: index) + safeArea.left,
+                                                y: 0, width: view.bounds.width - (view.safeAreaInsets.left + safeArea.right),
+                                                height: containerView.bounds.height)
         }
     }
 }

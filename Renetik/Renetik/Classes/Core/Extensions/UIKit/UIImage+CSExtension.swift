@@ -2,12 +2,11 @@
 // Created by Rene Dohan on 9/22/19.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UIImage {
-
-    public convenience init(_ fileName: String) {
+    convenience init(_ fileName: String) {
         self.init(named: fileName)!
     }
 
@@ -74,19 +73,19 @@ public extension UIImage {
         var transform: CGAffineTransform? = nil
 
         switch imageOrientation {
-        case .up /*EXIF = 1 */:
+        case .up /* EXIF = 1 */:
             transform = CGAffineTransform.identity
-        case .upMirrored /*EXIF = 2 */:
+        case .upMirrored /* EXIF = 2 */:
             transform = CGAffineTransform(translationX: width, y: 0.0).scaledBy(x: -1.0, y: 1.0)
-        case .down /*EXIF = 3 */:
+        case .down /* EXIF = 3 */:
             transform = CGAffineTransform(translationX: width, y: height).rotated(by: .pi)
-        case .downMirrored /*EXIF = 4 */:
+        case .downMirrored /* EXIF = 4 */:
             transform = CGAffineTransform(translationX: 0.0, y: height).scaledBy(x: 1.0, y: -1.0)
         case .leftMirrored:
             bounds.size.height = bounds.size.width
             bounds.size.width = bounds.size.height
             transform = CGAffineTransform(translationX: height, y: width)
-                    .scaledBy(x: -1.0, y: 1.0).rotated(by: 3.0 * .pi / 2.0)
+                .scaledBy(x: -1.0, y: 1.0).rotated(by: 3.0 * .pi / 2.0)
         case .left:
             bounds.size.height = bounds.size.width
             bounds.size.width = bounds.size.height

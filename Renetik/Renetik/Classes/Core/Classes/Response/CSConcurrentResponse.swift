@@ -7,11 +7,10 @@
 import RenetikObjc
 
 public class CSConcurrentResponse: CSResponse<NSMutableArray> {
-
     var failedResponse: CSResponseProtocol?
     let responses = CSArray<CSResponseProtocol>() // Cannot use swift array because of equatable shit
 
-    public override init() { super.init(); self.data = NSMutableArray() }
+    override public init() { super.init(); data = NSMutableArray() }
 
     public init<T: AnyObject>(_ response: CSResponse<T>) { super.init(); add(response) }
 
@@ -20,7 +19,7 @@ public class CSConcurrentResponse: CSResponse<NSMutableArray> {
         data!.add(response.data!)
         responses.add(response)
         response.onFailed { _ in self.onResponseFailed(response) }
-                .onSuccess { _ in self.onResponseSuccess(response) }
+            .onSuccess { _ in self.onResponseSuccess(response) }
         return response
     }
 
@@ -28,7 +27,7 @@ public class CSConcurrentResponse: CSResponse<NSMutableArray> {
 
     func onResponseSuccess<T: AnyObject>(_ response: CSResponse<T>) {
         responses.remove(response)
-        if responses.isEmpty { self.success(self.data) }
+        if responses.isEmpty { success(data) }
     }
 
     func onResponseFailed<T: AnyObject>(_ failedResponse: CSResponse<T>) {

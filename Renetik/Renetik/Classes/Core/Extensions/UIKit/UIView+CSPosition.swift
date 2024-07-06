@@ -2,11 +2,10 @@
 // Created by Rene Dohan on 2/14/20.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UIView {
-
     var position: CGPoint {
         get { frame.origin }
         set {
@@ -28,6 +27,7 @@ public extension UIView {
             self.frame = frame
         }
     }
+
     var top: CGFloat {
         get { position.top }
         set {
@@ -36,14 +36,17 @@ public extension UIView {
             self.frame = frame
         }
     }
+
     var right: CGFloat {
         get { left + width }
         set { left = newValue - width }
     }
+
     var bottom: CGFloat {
         get { top + height }
-        set { top = newValue - self.height }
+        set { top = newValue - height }
     }
+
     var fromRight: CGFloat {
         get { superview.notNil ? superview!.width - (left + width) : 0 }
         set(value) {
@@ -51,6 +54,7 @@ public extension UIView {
             left = superview!.width - (value + width)
         }
     }
+
     var fromBottom: CGFloat {
         get { superview.notNil ? superview!.height - (top + height) : 0 }
         set(value) {
@@ -58,12 +62,14 @@ public extension UIView {
             top = superview!.height - (value + height)
         }
     }
+
     var leftFromRight: CGFloat { superview.notNil ? superview!.width - left : width }
     var topFromBottom: CGFloat { superview.notNil ? superview!.height - top : height }
     var screenTop: CGFloat {
         get { convert(CGPoint(x: 0, y: top), to: nil).y }
         set(value) { top = convert(CGPoint(x: 0, y: value), from: nil).y }
     }
+
     var screenBottom: CGFloat {
         get { convert(CGPoint(x: 0, y: bottom), to: nil).y }
         set(value) { bottom = convert(CGPoint(x: 0, y: value), from: nil).y }
@@ -126,6 +132,4 @@ public extension UIView {
         center = CGPoint(x: superview!.width / 2, y: center.y)
         return self
     }
-
-
 }

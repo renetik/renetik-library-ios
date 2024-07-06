@@ -5,11 +5,10 @@
 //  Created by Rene Dohan on 3/6/19.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UIScrollView {
-
 //    class func vertical(content view: UIView) -> Self {
 //        let instance: UIScrollView = Self.withSize(view.width, view.height)
 //        instance.vertical(content: view)
@@ -30,7 +29,7 @@ public extension UIScrollView {
     }
 
     @discardableResult
-    public func content<View: UIView>(vertical view: View) -> View {
+    func content<View: UIView>(vertical view: View) -> View {
         content(view).matchParentWidth().from(top: 0)
         contentHeightByLastContentSubview()
         return view
@@ -101,27 +100,27 @@ public extension UIScrollView {
     }
 
     @discardableResult
-    func content(inset: UIEdgeInsets) -> Self { self.contentInset = inset; return self }
+    func content(inset: UIEdgeInsets) -> Self { contentInset = inset; return self }
 
-    public func scrollable(_ isScrollEnabled: Bool) -> Self {
+    func scrollable(_ isScrollEnabled: Bool) -> Self {
         self.isScrollEnabled = isScrollEnabled
         return self
     }
 
-    public var isAtTop: Bool { contentOffset.y <= verticalOffsetForTop }
+    var isAtTop: Bool { contentOffset.y <= verticalOffsetForTop }
 
-    public var isAtBottom: Bool {
+    var isAtBottom: Bool {
 //        let bottomEdge = contentOffset.y + height
 //        return bottomEdge >= contentSize.height
         contentOffset.y >= verticalOffsetForBottom
     }
 
-    public var verticalOffsetForTop: CGFloat {
+    var verticalOffsetForTop: CGFloat {
         let topInset = contentInset.top
         return -topInset
     }
 
-    public var verticalOffsetForBottom: CGFloat {
+    var verticalOffsetForBottom: CGFloat {
         let scrollViewHeight = bounds.height
         let scrollContentSizeHeight = contentSize.height
         let bottomInset = contentInset.bottom
@@ -135,7 +134,7 @@ public extension UIScrollView {
 
     func scrollToBottom() {
         setContentOffset(CGPoint(x: contentOffset.x,
-                y: contentSize.height - bounds.size.height - contentInset.bottom), animated: true)
+                                 y: contentSize.height - bounds.size.height - contentInset.bottom), animated: true)
     }
 
     func scrollTo(page index: Int, of count: Int, animated: Bool = true) {

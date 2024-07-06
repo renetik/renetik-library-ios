@@ -3,11 +3,10 @@
 //
 
 import Foundation
-import UIKit
 import RenetikObjc
+import UIKit
 
 public class CSPickerController: CSViewController, CSHasPickerVisible, UIPickerViewDelegate, UIPickerViewDataSource {
-
     public var isPickerVisible: Bool = false
 
     public var toolBarColor: UIColor?
@@ -21,9 +20,10 @@ public class CSPickerController: CSViewController, CSHasPickerVisible, UIPickerV
     var onCancel: Func?
 
     @discardableResult
-    public func showPicker(from parent: UIViewController, title: String, items: [CustomStringConvertible], selected selectedIndex: Int,
-                           from displayElement: CSDisplayElement, onCancel: Func?,
-                           onDone: @escaping (Int) -> Void) -> CSHasPickerVisible {
+    public func showPicker(from parent: UIViewController, title _: String, items: [CustomStringConvertible], selected selectedIndex: Int,
+                           from _: CSDisplayElement, onCancel: Func?,
+                           onDone: @escaping (Int) -> Void) -> CSHasPickerVisible
+    {
         super.constructAsViewLess(in: parent)
         self.items = items
         self.onDone = onDone
@@ -36,10 +36,10 @@ public class CSPickerController: CSViewController, CSHasPickerVisible, UIPickerV
         window.layoutIfNeeded()
         pickerView.selectRow(selectedIndex, inComponent: 0, animated: false)
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1,
-                initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-            window.layoutIfNeeded()
-            self.disablerView.alpha = 1
-        })
+                       initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                           window.layoutIfNeeded()
+                           self.disablerView.alpha = 1
+                       })
         return self
     }
 
@@ -69,16 +69,17 @@ public class CSPickerController: CSViewController, CSHasPickerVisible, UIPickerV
         return toolBar
     }()
 
-    public func numberOfComponents(in pickerView: UIPickerView) -> Int { 1 }
+    public func numberOfComponents(in _: UIPickerView) -> Int { 1 }
 
-    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    public func pickerView(_: UIPickerView, numberOfRowsInComponent _: Int) -> Int {
         items.count
     }
 
-    public func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int,
-                           forComponent component: Int) -> NSAttributedString? {
+    public func pickerView(_: UIPickerView, attributedTitleForRow row: Int,
+                           forComponent _: Int) -> NSAttributedString?
+    {
         NSAttributedString(string: String(describing: items[row]),
-                attributes: [.foregroundColor: pickerItemTextColor, .font: pickerItemFont])
+                           attributes: [.foregroundColor: pickerItemTextColor, .font: pickerItemFont])
     }
 
     func onDoneClicked() {

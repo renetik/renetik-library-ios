@@ -2,19 +2,18 @@
 // Created by Rene Dohan on 1/11/20.
 //
 
+import ChameleonFramework
 import Foundation
 import MBProgressHUD
-import ChameleonFramework
 
 public class CSMBProgressController: CSObject, CSHasProgress, CSHasDialogVisible {
-
     public var backgroundColor = UIColor.flatBlack()!.lighten(byPercentage: 0.03)!.add(alpha: 0.85)
     public var foregroundColor = UIColor.white
     private let view: UIView
     private var hud: MBProgressHUD?
 
     public init(in controller: UIViewController) {
-        self.view = controller.view
+        view = controller.view
     }
 
     public init(in view: UIView) {

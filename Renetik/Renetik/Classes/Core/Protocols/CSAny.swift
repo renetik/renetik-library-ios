@@ -4,61 +4,59 @@
 
 import Foundation
 
-public protocol CSAny {
-}
+public protocol CSAny {}
 
 public extension CSAny {
+    static func cast(_ object: Any) -> Self { object as! Self }
 
-    public static func cast(_ object: Any) -> Self { object as! Self }
+    var notNil: Bool { true }
 
-    public var notNil: Bool { true }
-
-    public var isNil: Bool { false }
+    var isNil: Bool { false }
 
     @discardableResult
-    public func also(_ function: (Self) -> Void) -> Self {
+    func also(_ function: (Self) -> Void) -> Self {
         function(self)
         return self
     }
 
     @discardableResult
-    public func invoke(_ function: Func) -> Self {
+    func invoke(_ function: Func) -> Self {
         function()
         return self
     }
 
     @discardableResult
-    public func invoke(from: Int, until: Int, function: (Int) -> Void) -> Self {
+    func invoke(from: Int, until: Int, function: (Int) -> Void) -> Self {
         from.until(until, function)
         return self
     }
 
     @discardableResult
-    public func run(_ function: Func) -> Void {
+    func run(_ function: Func) {
         function()
     }
 
-    public func then(_ function: (Self) -> Void) { function(self) }
+    func then(_ function: (Self) -> Void) { function(self) }
 
     // let in kotlin
-    public func get<ReturnType>(_ function: (Self) -> ReturnType) -> ReturnType { function(self) }
+    func get<ReturnType>(_ function: (Self) -> ReturnType) -> ReturnType { function(self) }
 
-    public var asString: String { "\(self)" }
+    var asString: String { "\(self)" }
 
 //    public var description: String { "\(type(of: self))" }
 
-    public func cast<T>() -> T { self as! T }
+    func cast<T>() -> T { self as! T }
 
-    public func castOrNil<T>() -> T? { self as? T }
+    func castOrNil<T>() -> T? { self as? T }
 
-    public func equals(to object: Any?) -> Bool { //TODO: check how this is reliable
+    func equals(to object: Any?) -> Bool { // TODO: check how this is reliable
         if String(describing: self) == String(describing: object) { return true }
         return false
     }
 }
 
-public extension CSAny where Self: NSObject { //TODO: Use custom isEqual
-    public func equals(one objects: NSObject...) -> Bool {
+public extension CSAny where Self: NSObject { // TODO: Use custom isEqual
+    func equals(one objects: NSObject...) -> Bool {
         if objects.contains(self) { return true }
         return false
     }

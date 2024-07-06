@@ -6,7 +6,6 @@ import BlocksKit
 import Renetik
 
 public extension UIBarButtonItem {
-
     class var flexSpaceItem: UIBarButtonItem {
         UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     }

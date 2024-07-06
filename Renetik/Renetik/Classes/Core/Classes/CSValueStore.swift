@@ -13,9 +13,9 @@ public class CSValueStore {
 }
 
 public extension CSValueStore {
-    public class func getInt(key: String, default defaultValue: Int = 0) -> Int {
+    class func getInt(key: String, default defaultValue: Int = 0) -> Int {
         getString(key: key, default: stringify(defaultValue)).intValue
     }
 
-    public class func save(key: String, value: Int) { save(key: key, value: stringify(value)) }
+    class func save(key: String, value: Int) { save(key: key, value: stringify(value)) }
 }

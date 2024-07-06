@@ -1,5 +1,5 @@
 //
-//  CSAppDelegate.swift
+//  CSApplicationDelegate.swift
 //  BlocksKit
 //
 //  Created by Rene Dohan on 2/9/19.
@@ -7,7 +7,7 @@
 
 import RenetikObjc
 
-public let delegate: CSApplicationDelegate = CSApplicationDelegate.instance()
+public let delegate: CSApplicationDelegate = .instance()
 public let logger: CSLogger = delegate.logger
 public let navigation: CSNavigationController = delegate.navigation
 
@@ -23,7 +23,7 @@ open class CSApplicationDelegate: UIResponder, UIApplicationDelegate {
 }
 
 @objc public extension CSApplicationDelegate {
-    public class func instance() -> Self {
+    class func instance() -> Self {
         UIApplication.shared.delegate as! Self
     }
 }

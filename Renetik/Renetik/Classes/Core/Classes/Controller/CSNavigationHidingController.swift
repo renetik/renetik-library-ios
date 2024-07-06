@@ -1,5 +1,5 @@
 //
-//  CSHideNavigationBarByScrollingController.swift
+//  CSNavigationHidingController.swift
 //  Renetik
 //
 //  Created by Rene Dohan on 7/3/19.
@@ -7,7 +7,7 @@
 
 import RenetikObjc
 
-//TODO:  Make standalone library !!!
+// TODO: Make standalone library !!!
 public class CSNavigationHidingController: CSMainController {
     private var isNavigationBarHidden = false
     private var shouldShow = false
@@ -38,21 +38,21 @@ public class CSNavigationHidingController: CSMainController {
         }
     }
 
-    public override func onViewVisibilityChanged(_ visible: Bool) {
+    override public func onViewVisibilityChanged(_: Bool) {
         isNavigationBarHidden = navigation.navigationBar.isHidden
     }
 
-    public override func onViewDismissing() {
+    override public func onViewDismissing() {
         super.onViewDismissing()
         requestNavigationBarShown(animated: false)
     }
 
-    public override func onViewPushedOver() {
+    override public func onViewPushedOver() {
         super.onViewPushedOver()
         requestNavigationBarShown(animated: false)
     }
 
-    public override func onViewDidTransition(to _: CGSize, _ _: UIViewControllerTransitionCoordinatorContext) {
+    override public func onViewDidTransition(to _: CGSize, _ _: UIViewControllerTransitionCoordinatorContext) {
         requestNavigationBarShown()
     }
 
@@ -76,11 +76,11 @@ public class CSNavigationHidingController: CSMainController {
         }
     }
 
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    public func scrollViewDidEndDragging(_: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate { lastDraggingContentOffset = nil }
     }
 
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_: UIScrollView) {
         lastDraggingContentOffset = nil
     }
 

@@ -4,9 +4,10 @@
 
 import Foundation
 
-extension NSMutableParagraphStyle {
-    public class func with(lineBreak: NSLineBreakMode = .byWordWrapping,
-                           alignment: NSTextAlignment = .left) -> NSMutableParagraphStyle {
+public extension NSMutableParagraphStyle {
+    class func with(lineBreak: NSLineBreakMode = .byWordWrapping,
+                    alignment: NSTextAlignment = .left) -> NSMutableParagraphStyle
+    {
         var paragraph = NSMutableParagraphStyle()
         paragraph.lineBreakMode = lineBreak
         paragraph.alignment = alignment

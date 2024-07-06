@@ -6,7 +6,6 @@ import Foundation
 import RenetikObjc
 
 public class CSArray<Type>: CSObject {
-
     private let array = NSMutableArray()
 
     var isEmpty: Bool { array.empty }

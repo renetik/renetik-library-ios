@@ -2,11 +2,10 @@
 // Created by Rene Dohan on 1/29/20.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UIView {
-
     var width: CGFloat {
         get { frame.size.width }
         set {
@@ -49,10 +48,10 @@ public extension UIView {
     @discardableResult
     func defaultSize() -> Self { width(UIScreen.width, height: UIScreen.height) }
 
-    public var availableHeight: CGFloat { height - navigation.navigationBar.bottom }
+    var availableHeight: CGFloat { height - navigation.navigationBar.bottom }
 
     @discardableResult
-    public func heightByLastSubview(padding: CGFloat = 0, minimum: CGFloat = 0) -> Self {
+    func heightByLastSubview(padding: CGFloat = 0, minimum: CGFloat = 0) -> Self {
         let lastSubviewBottom = (content?.subviews.last?.bottom ?? subviews.last?.bottom)
         return height(lastSubviewBottom?.get { $0 + padding } ?? minimum)
     }
@@ -77,13 +76,13 @@ public extension UIView {
         var x = width
         var y = height
         var rect = CGRect.zero
-        subviews.forEach { subview in
+        for subview in subviews {
             rect = rect.union(subview.frame)
             x = subview.frame.x < x ? subview.frame.x : x
             y = subview.frame.y < y ? subview.frame.y : y
         }
         var masks = [UIView.AutoresizingMask]()
-        subviews.forEach { (subview: UIView) in
+        for subview in subviews {
             masks.add(subview.autoresizingMask)
             subview.autoresizingMask = []
             subview.frame = subview.frame.offsetBy(dx: -x, dy: -y)
@@ -91,7 +90,7 @@ public extension UIView {
         rect.size.width -= x
         rect.size.height -= y
         frame.size = rect.size
-        subviews.enumerated().forEach { index, subview in
+        for (index, subview) in subviews.enumerated() {
             subview.autoresizingMask = masks[index]
         }
         return self
@@ -190,19 +189,19 @@ public extension UIView {
     @objc open func heightToFitSubviews() -> Self {
         var y = height
         var rect = CGRect.zero
-        subviews.forEach { subview in
+        for subview in subviews {
             rect = rect.union(subview.frame)
             y = subview.frame.y < y ? subview.frame.y : y
         }
         var masks = [UIView.AutoresizingMask]()
-        subviews.forEach { (subview: UIView) in
+        for subview in subviews {
             masks.add(subview.autoresizingMask)
             subview.autoresizingMask = []
             subview.frame = subview.frame.offsetBy(dx: 0, dy: -y)
         }
         rect.height -= y
         height(rect.height)
-        subviews.enumerated().forEach { index, subview in
+        for (index, subview) in subviews.enumerated() {
             subview.autoresizingMask = masks[index]
         }
         return self
@@ -219,5 +218,4 @@ public extension UIView {
     }
 
     func hideByHeight(if condition: Bool) -> Self { invoke { if condition { self.height = 0 } } }
-
 }

@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  CSGetLocation.swift
 //  Renetik
 //
 //  Created by Rene Dohan on 3/11/19.
@@ -23,21 +23,23 @@ public class CSGetLocation: NSObject, CLLocationManagerDelegate {
         else { locationCallback(nil) }
     }
 
-	public func locationManager(_ manager: CLLocationManager,
-								didUpdateLocations locations: [CLLocation]) {
-		locationCallback(locations.last!)
-		manager.stopUpdatingLocation()
-	}
+    public func locationManager(_ manager: CLLocationManager,
+                                didUpdateLocations locations: [CLLocation])
+    {
+        locationCallback(locations.last!)
+        manager.stopUpdatingLocation()
+    }
 
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         didFailWithError = error
-		logWarn(error)
+        logWarn(error)
         locationCallback(nil)
         manager.stopUpdatingLocation()
     }
 
-    public func locationManager(_ manager: CLLocationManager,
-								didChangeAuthorization status: CLAuthorizationStatus) {
+    public func locationManager(_: CLLocationManager,
+                                didChangeAuthorization status: CLAuthorizationStatus)
+    {
         logWarn(status)
     }
 

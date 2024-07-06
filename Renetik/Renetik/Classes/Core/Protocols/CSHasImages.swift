@@ -4,6 +4,6 @@
 
 import UIKit
 
-public protocol CSHasImagesProtocol: class {
+public protocol CSHasImagesProtocol: AnyObject {
     var images: [UIImage] { get }
 }

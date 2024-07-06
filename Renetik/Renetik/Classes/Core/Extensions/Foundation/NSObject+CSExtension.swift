@@ -12,7 +12,7 @@ public extension NSObject {
 
     //    var eventChangeProperty: CSEvent<Void> { extensionProperty("eventChange") { CSEvent<Void>() } }
     func extensionProperty<Type>(_ id: String, _ onCreate: () -> Type) -> Type {
-        var dict = self.propertyDictionary() as! [String: Any]
+        var dict = propertyDictionary() as! [String: Any]
         var instance = dict[id] as! Type?
         instance.isNil {
             instance = onCreate()

@@ -5,11 +5,10 @@
 //  Created by Rene Dohan on 3/6/19.
 //
 
-import UIKit
 import RenetikObjc
+import UIKit
 
 public extension UILabel {
-
     override func construct() -> Self {
         super.construct()
         lineBreakMode = .byTruncatingTail
@@ -47,7 +46,7 @@ public extension UILabel {
     func textColor(_ textColor: UIColor) -> Self { invoke { self.textColor = textColor } }
 
     @discardableResult
-    public func withBoldFont(if condition: Bool = true) -> Self {
+    func withBoldFont(if condition: Bool = true) -> Self {
         invoke { font = condition ? font.bold() : font.normal() }
     }
 
@@ -90,7 +89,7 @@ public extension UILabel {
     @discardableResult
     func heightToFit(lines numberOfLines: Int) -> Self {
         let currentWidth = width; let currentText = text; var linesText = "line"
-        for i in 0..<numberOfLines - 1 {
+        for i in 0 ..< numberOfLines - 1 {
             linesText += "\n line"
         }
         text(linesText).resizeToFit().text(currentText).width(currentWidth)
@@ -104,7 +103,7 @@ public extension UILabel {
         let htmlData = html.data(using: .unicode, allowLossyConversion: true)
         htmlData.notNil { data in
             attributedText = try? NSAttributedString(data: data, options: [
-                .documentType: NSAttributedString.DocumentType.html, .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue)
+                .documentType: NSAttributedString.DocumentType.html, .characterEncoding: NSNumber(value: String.Encoding.utf8.rawValue),
             ], documentAttributes: nil)
         }
         return self

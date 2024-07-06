@@ -3,8 +3,8 @@
 // Copyright (c) 2019 Bowbook. All rights reserved.
 //
 
-import RenetikObjc
 import Renetik
+import RenetikObjc
 
 extension CSJsonData {
     func getStringValue(_ key: String) -> String { getString(key).asString }

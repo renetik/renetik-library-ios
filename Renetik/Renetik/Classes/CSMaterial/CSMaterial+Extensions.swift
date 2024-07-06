@@ -1,5 +1,5 @@
 //
-//  MDCCard+CSExtension.swift
+//  CSMaterial+Extensions.swift
 //  Motorkari
 //
 //  Created by Rene Dohan on 3/18/19.
@@ -7,13 +7,13 @@
 //
 
 import Foundation
-import UIKit
 import MaterialComponents
 import Renetik
 import RenetikObjc
+import UIKit
 
 open class CSMaterialButton: UIButton {
-    lazy var inkTouchController = { MDCRippleTouchController() }()
+    lazy var inkTouchController = MDCRippleTouchController()
 
     @discardableResult
     @objc override open func onTouchUp(_ block: @escaping Func) -> Self {
@@ -23,12 +23,10 @@ open class CSMaterialButton: UIButton {
     }
 }
 
-open class CSMaterialCard: MDCCard {
-
-}
+open class CSMaterialCard: MDCCard {}
 
 open class CSMaterialImageView: UIImageView {
-    lazy var inkTouchController = { MDCRippleTouchController() }()
+    lazy var inkTouchController = MDCRippleTouchController()
 
     @discardableResult
     @objc override open func onClick(_ block: @escaping Func) -> Self {
@@ -39,7 +37,7 @@ open class CSMaterialImageView: UIImageView {
 }
 
 open class CSMaterialLabel: UILabel {
-    lazy var inkTouchController = { MDCRippleTouchController() }()
+    lazy var inkTouchController = MDCRippleTouchController()
 
     @discardableResult
     @objc override open func onClick(_ block: @escaping Func) -> Self {
@@ -50,8 +48,7 @@ open class CSMaterialLabel: UILabel {
 }
 
 open class CSMaterialView: CSView {
-
-    lazy var inkTouchController = { MDCRippleTouchController() }()
+    lazy var inkTouchController = MDCRippleTouchController()
 
     @discardableResult
     @objc override open func onClick(_ block: @escaping Func) -> Self {
@@ -63,7 +60,7 @@ open class CSMaterialView: CSView {
 
 public extension MDCCard {
     @discardableResult
-    open override func construct() -> Self {
+    override open func construct() -> Self {
         super.construct()
         clipsToBounds = false
         isInteractable = false
@@ -71,7 +68,7 @@ public extension MDCCard {
     }
 
     @discardableResult
-    open override func onTouchUp(_ block: @escaping Func) -> Self {
+    override open func onTouchUp(_ block: @escaping Func) -> Self {
         super.onTouchUp(block)
         isInteractable = true
         isUserInteractionEnabled = true
@@ -79,7 +76,7 @@ public extension MDCCard {
     }
 
     @discardableResult
-    open override func onTap(_ block: @escaping Func) -> Self {
+    override open func onTap(_ block: @escaping Func) -> Self {
         super.onTap(block)
         isInteractable = true
         isUserInteractionEnabled = true
@@ -87,7 +84,7 @@ public extension MDCCard {
     }
 
     @discardableResult
-    open override func onTouchDown(_ block: @escaping Func) -> Self {
+    override open func onTouchDown(_ block: @escaping Func) -> Self {
         super.onTouchDown(block)
         isInteractable = true
         isUserInteractionEnabled = true
@@ -96,7 +93,7 @@ public extension MDCCard {
 }
 
 extension MDCFloatingButton {
-    open override func construct() -> Self {
+    override open func construct() -> Self {
         super.construct()
         clipsToBounds = false
         return self
@@ -113,7 +110,7 @@ public extension MDCButton {
 }
 
 public extension MDCMultilineTextField {
-    open override func construct() -> Self {
+    override open func construct() -> Self {
         super.construct()
         clipsToBounds = false
         return self
@@ -121,7 +118,7 @@ public extension MDCMultilineTextField {
 }
 
 public extension MDCTextField {
-    open override func construct() -> Self {
+    override open func construct() -> Self {
         super.construct()
         clipsToBounds = false
         return self

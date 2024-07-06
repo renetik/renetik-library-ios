@@ -2,27 +2,31 @@
 // Created by Rene Dohan on 12/18/19.
 //
 
-import RenetikObjc
 import Renetik
+import RenetikObjc
 
 public class CSMenuItem: CSObject {
-
     private let controller: CSMainController
     public var title: String? {
         didSet { updateMenu() }
     }
+
     public var systemItem: UIBarButtonItem.SystemItem? {
         didSet { updateMenu() }
     }
+
     public var image: UIImage? {
         didSet { updateMenu() }
     }
+
     public var tintColor: UIColor? {
         didSet { updateMenu() }
     }
+
     public var isVisible = true {
         didSet { updateMenu() }
     }
+
     var action: ((CSMenuItem) -> Void)?
     var view: UIView?
     var isNoActionItem = false
@@ -30,7 +34,8 @@ public class CSMenuItem: CSObject {
 
     public init(by parent: CSMainController, title: String? = nil,
                 systemItem: UIBarButtonItem.SystemItem? = nil,
-                image: UIImage? = nil, action: ((CSMenuItem) -> Void)? = nil) {
+                image: UIImage? = nil, action: ((CSMenuItem) -> Void)? = nil)
+    {
         controller = parent
         self.title = title
         self.systemItem = systemItem
@@ -46,13 +51,13 @@ public class CSMenuItem: CSObject {
 
     @discardableResult
     public func hide() -> Self {
-        self.isVisible = false;
+        isVisible = false
         return self
     }
 
     @discardableResult
     public func show() -> Self {
-        self.isVisible = true;
+        isVisible = true
         return self
     }
 
@@ -65,11 +70,11 @@ public class CSMenuItem: CSObject {
         if !controller.isViewLoaded { return }
         (controller as? CSMainController).notNil { $0.updateBarItemsAndMenu() }.elseDo {
             (controller.parent as? CSMainController).notNil { $0.updateBarItemsAndMenu() }
-                    .elseDo { logError("CSMainController not found") }
+                .elseDo { logError("CSMainController not found") }
         }
     }
 
-    internal func createButtonItem() -> UIBarButtonItem {
+    func createButtonItem() -> UIBarButtonItem {
         let barButtonItem = createBarButtonItem()
         barButtonItem.tintColor = tintColor
         return barButtonItem
@@ -97,7 +102,7 @@ public class CSMenuItem: CSObject {
 }
 
 public extension CSMenuItem {
-    public static var menuImage: UIImage = {
+    static var menuImage: UIImage = {
         UIGraphicsBeginImageContextWithOptions(CGSize(width: 26, height: 26), _: false, _: 0)
         // Color Declarations
         let fillColor = UIColor.white
@@ -105,17 +110,17 @@ public extension CSMenuItem {
         let frame = CGRect(x: 0, y: 0, width: 26, height: 26)
         // Bottom Bar Drawing
         let bottomBarPath = UIBezierPath(rect: CGRect(x: frame.minX + floor((frame.width - 16) * 0.50000 + 0.5),
-                y: frame.minY + floor((frame.height - 1) * 0.72000 + 0.5), width: 16, height: 1))
+                                                      y: frame.minY + floor((frame.height - 1) * 0.72000 + 0.5), width: 16, height: 1))
         fillColor.setFill()
         bottomBarPath.fill()
         // Middle Bar Drawing
         let middleBarPath = UIBezierPath(rect: CGRect(x: frame.minX + floor((frame.width - 16) * 0.50000 + 0.5),
-                y: frame.minY + floor((frame.height - 1) * 0.48000 + 0.5), width: 16, height: 1))
+                                                      y: frame.minY + floor((frame.height - 1) * 0.48000 + 0.5), width: 16, height: 1))
         fillColor.setFill()
         middleBarPath.fill()
         // Top Bar Drawing
         let topBarPath = UIBezierPath(rect: CGRect(x: frame.minX + floor((frame.width - 16) * 0.50000 + 0.5),
-                y: frame.minY + floor((frame.height - 1) * 0.24000 + 0.5), width: 16, height: 1))
+                                                   y: frame.minY + floor((frame.height - 1) * 0.24000 + 0.5), width: 16, height: 1))
         fillColor.setFill()
         topBarPath.fill()
         return UIGraphicsGetImageFromCurrentImageContext()!

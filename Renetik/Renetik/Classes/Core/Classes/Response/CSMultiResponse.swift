@@ -5,10 +5,9 @@
 import RenetikObjc
 
 public class CSMultiResponse: CSResponse<NSMutableArray> {
-
     var response: CSResponseProtocol!
 
-    public override init() { super.init(); self.data = NSMutableArray() }
+    override public init() { super.init(); data = NSMutableArray() }
 
     @discardableResult
     public func add<Data: AnyObject, Response: CSResponse<Data>>(_ response: Response) -> Response {
@@ -19,10 +18,10 @@ public class CSMultiResponse: CSResponse<NSMutableArray> {
 
     @discardableResult
     public func add<Data: AnyObject, Response: CSResponse<Data>>(last request: Response) -> Response {
-        add(request).onSuccess { data in self.success() }
+        add(request).onSuccess { _ in self.success() }
     }
 
-    public override func cancel() {
+    override public func cancel() {
         super.cancel()
         response.cancel()
     }

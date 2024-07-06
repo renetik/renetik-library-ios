@@ -3,13 +3,12 @@
 // Copyright (c) 2019 Renetik Software. All rights reserved.
 //
 
-import RenetikObjc
 import Renetik
+import RenetikObjc
 
 public typealias CSTabBarPagerControllerItem = (item: UITabBarItem, onClick: (@escaping (UIViewController) -> Void) -> Void)
 
 public class CSTabBarPagerController: CSMainController, UITabBarDelegate {
-
     private let containerView = UIView.construct().background(.clear)
     public lazy var tabBar = UITabBar(frame: .zero).construct()
     private var onClicksDictionary = [UITabBarItem: (callback: @escaping (UIViewController) -> Void) -> Void]()
@@ -21,9 +20,9 @@ public class CSTabBarPagerController: CSMainController, UITabBarDelegate {
     public func construct(with parent: CSMainController, items: [CSTabBarPagerControllerItem]) -> Self {
         parentController = parent
         var barButtonItems = [UITabBarItem]()
-        items.forEach {
-            barButtonItems.add($0.item)
-            onClicksDictionary[$0.item] = $0.onClick
+        for element in items {
+            barButtonItems.add(element.item)
+            onClicksDictionary[element.item] = element.onClick
         }
         tabBar.delegate = self
         tabBar.items = barButtonItems

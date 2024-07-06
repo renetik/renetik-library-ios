@@ -5,8 +5,8 @@
 import Foundation
 
 public extension NSString {
-    public static let newLine = "\n"
-    public static let notFound = -1
+    static let newLine = "\n"
+    static let notFound = -1
 
     func index(of string: String, from index: Int) -> Int {
         if index > length - 1 { return NSString.notFound }
@@ -18,7 +18,6 @@ public extension NSString {
     func substring(from: Int, to: Int) -> String {
         let substringLength = to - from
         return substring(with: NSRange(location: from,
-                length: substringLength < length ? substringLength : length))
+                                       length: substringLength < length ? substringLength : length))
     }
-
 }

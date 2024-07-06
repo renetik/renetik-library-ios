@@ -10,5 +10,4 @@ public class CSTextField: UITextField {
     override public func caretRect(for position: UITextPosition) -> CGRect {
         hideCursor ? .zero : super.caretRect(for: position)
     }
-
 }

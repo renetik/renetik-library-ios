@@ -1,5 +1,5 @@
 //
-//  CSClient.swift
+//  CSAFClient.swift
 //  Motorkari
 //
 //  Created by Rene Dohan on 1/28/19.
@@ -10,10 +10,9 @@ import AFNetworking
 import RenetikObjc
 
 open class CSAFClient: CSObject {
-
     public let url: String
     public let manager: AFHTTPSessionManager
-    var defaultParams: Dictionary<String, String> = [:]
+    var defaultParams: [String: String] = [:]
     public var requestFailMessage = "Request failed"
     public var requestCancelMessage = "Request cancelled"
 
@@ -24,7 +23,7 @@ open class CSAFClient: CSObject {
         configuration.timeoutIntervalForRequest = 60
         configuration.timeoutIntervalForResource = 60
         manager = AFHTTPSessionManager(baseURL: URL(string: url),
-                sessionConfiguration: configuration)
+                                       sessionConfiguration: configuration)
         manager.responseSerializer = AFHTTPResponseSerializer()
     }
 
@@ -35,7 +34,7 @@ open class CSAFClient: CSObject {
         manager.securityPolicy = policy
     }
 
-    public func addDefault(params: Dictionary<String, String>) {
+    public func addDefault(params: [String: String]) {
         defaultParams.add(params)
     }
 
@@ -43,18 +42,19 @@ open class CSAFClient: CSObject {
         defaultParams.removeAll()
     }
 
-    public func acceptable(contentTypes: Array<String>) {
+    public func acceptable(contentTypes: [String]) {
         manager.responseSerializer.acceptableContentTypes = Set<String>(contentTypes)
     }
 
     public func basicAuthentication(username: String, password: String) {
         manager.requestSerializer
-                .setAuthorizationHeaderFieldWithUsername(username, password: password)
+            .setAuthorizationHeaderFieldWithUsername(username, password: password)
     }
 
     open func get<Data: CSServerData>(
-            service: String, data: Data,
-            params: [String: Any?] = [:]) -> CSResponse<Data> {
+        service: String, data: Data,
+        params: [String: Any?] = [:]
+    ) -> CSResponse<Data> {
         let request = CSResponse(url, service, data, createParams(params))
         request.requestCancelledMessage = requestCancelMessage
         request.type = .get
@@ -66,9 +66,10 @@ open class CSAFClient: CSObject {
     }
 
     open func post<Data: CSServerData>(
-            service: String, data: Data,
-            params: [String: String] = [:],
-            form: @escaping (AFMultipartFormData) -> Void) -> CSResponse<Data> {
+        service: String, data: Data,
+        params: [String: String] = [:],
+        form: @escaping (AFMultipartFormData) -> Void
+    ) -> CSResponse<Data> {
         let request = CSResponse(url, service, data, createParams(params))
         request.requestCancelledMessage = requestCancelMessage
         request.type = .post
@@ -76,14 +77,15 @@ open class CSAFClient: CSObject {
         let response = CSAFResponse(self, request)
 //        execute(request, response)
         manager.post(service, parameters: request.params, headers: nil, constructingBodyWith: form,
-                progress: response.onProgress, success: response.onSuccess,
-                failure: response.onFailure)
+                     progress: response.onProgress, success: response.onSuccess,
+                     failure: response.onFailure)
         return request
     }
 
     open func post<Data: CSServerData>(
-            service: String, data: Data,
-            params: [String: String?] = [:]) -> CSResponse<Data> {
+        service: String, data: Data,
+        params: [String: String?] = [:]
+    ) -> CSResponse<Data> {
         let request = CSResponse(url, service, data, createParams(params))
         request.requestCancelledMessage = requestCancelMessage
         request.type = .post
@@ -100,35 +102,35 @@ open class CSAFClient: CSObject {
     }
 
     func execute<Data: CSServerData>(
-            _ request: CSResponse<Data>, _ response: CSAFResponse<Data>) {
+        _ request: CSResponse<Data>, _ response: CSAFResponse<Data>
+    ) {
         if request.type == .get {
             manager.get(request.service, parameters: request.params, headers: nil,
-                    progress: response.onProgress, success: response.onSuccess,
-                    failure: response.onFailure)
+                        progress: response.onProgress, success: response.onSuccess,
+                        failure: response.onFailure)
         } else {
             if request.form.notNil {
                 manager.post(request.service, parameters: request.params, headers: nil,
-                        constructingBodyWith: request.form!, progress: response.onProgress,
-                        success: response.onSuccess, failure: response.onFailure)
+                             constructingBodyWith: request.form!, progress: response.onProgress,
+                             success: response.onSuccess, failure: response.onFailure)
             } else {
                 manager.post(request.service, parameters: request.params, headers: nil,
-                        progress: response.onProgress, success: response.onSuccess,
-                        failure: response.onFailure)
+                             progress: response.onProgress, success: response.onSuccess,
+                             failure: response.onFailure)
             }
         }
     }
 }
 
 public extension AFMultipartFormData {
-
-    public func appendUnicode(parts: [String: String]) {
+    func appendUnicode(parts: [String: String]) {
         logInfo(parts.asJson?.substring(to: 100))
         for (key, value) in parts {
             appendPart(withForm: value.data(using: .unicode)!, name: key)
         }
     }
 
-    public func appendUTF8(parts: [String: Any?]) {
+    func appendUTF8(parts: [String: Any?]) {
         logInfo(parts.asJson?.substring(to: 100))
         for (key, value) in parts {
             appendPart(withForm: stringify(value).data(using: .utf8)!, name: key)
@@ -137,9 +139,9 @@ public extension AFMultipartFormData {
 
     func appendImage(parts: [UIImage]) {
         logInfo(parts)
-        for index in 0..<parts.count {
+        for index in 0 ..< parts.count {
             appendPart(withFileData: parts[index].jpegData(compressionQuality: 0.8)!,
-                    name: "images[\(index)]", fileName: "mobileUpload.jpg", mimeType: "image/jpeg")
+                       name: "images[\(index)]", fileName: "mobileUpload.jpg", mimeType: "image/jpeg")
         }
     }
 }

@@ -3,10 +3,10 @@
 // Copyright (c) 2020 Renetik. All rights reserved.
 //
 
-import Foundation
 import Alamofire
-import RenetikObjc
+import Foundation
 import Renetik
+import RenetikObjc
 
 public extension URL {
     func clearCache(parameters: [String: Any]? = nil, headers: HTTPHeaders? = nil, urlCache: URLCache = URLCache.shared) {

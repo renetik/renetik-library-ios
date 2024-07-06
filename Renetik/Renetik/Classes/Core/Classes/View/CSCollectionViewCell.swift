@@ -5,7 +5,6 @@
 import UIKit
 
 open class CSCollectionViewCell: UICollectionViewCell {
-
     private let layoutFunctions: CSEvent<Void> = event()
 
     @discardableResult

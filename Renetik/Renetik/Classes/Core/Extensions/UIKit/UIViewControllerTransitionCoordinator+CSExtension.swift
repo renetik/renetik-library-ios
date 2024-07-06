@@ -5,9 +5,7 @@
 import UIKit
 
 public extension UIViewControllerTransitionCoordinator {
-
     func onCompletion(_ function: @escaping (UIViewControllerTransitionCoordinatorContext) -> Void) {
         animate(alongsideTransition: nil, completion: function)
     }
 }
-

@@ -113,7 +113,7 @@ Pod::Spec.new do |s|
 	s.subspec 'DTCoreText' do |ss|
 		ss.dependency 'Renetik/Core'
 		ss.dependency 'DTCoreText'
-		ss.dependency 'IDMPhotoBrowser'
+# 		ss.dependency 'IDMPhotoBrowser'
 #    ss.dependency 'NYTPhotoViewer'
     ss.dependency 'SKPhotoBrowser'
 		ss.dependency 'ARChromeActivity'

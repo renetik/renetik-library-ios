@@ -3,12 +3,11 @@
 //
 
 import Foundation
-import UIKit
 import MBProgressHUD
 import RenetikObjc
+import UIKit
 
 public class CSMBDialogController: NSObject, CSHasDialog, CSHasDialogVisible, MBProgressHUDDelegate {
-
     public var backgroundColor = UIColor.flatBlack()!.lighten(byPercentage: 0.03)!.add(alpha: 0.7)
     public var foregroundColor = UIColor.white
     private var hud: MBProgressHUD!
@@ -19,7 +18,8 @@ public class CSMBDialogController: NSObject, CSHasDialog, CSHasDialogVisible, MB
     }
 
     public func show(title: String?, message: String, positive: CSDialogAction?, negative: CSDialogAction?,
-                     cancel: CSDialogAction?) -> CSHasDialogVisible {
+                     cancel: CSDialogAction?) -> CSHasDialogVisible
+    {
         MBProgressHUD.hide(for: view, animated: true)
         hud = MBProgressHUD.showAdded(to: view, animated: true).also { hud in
             hud.mode = .text
@@ -38,7 +38,7 @@ public class CSMBDialogController: NSObject, CSHasDialog, CSHasDialogVisible, MB
                     hud.hide(animated: true)
                 }
             }
-            negative.notNil { action in
+            negative.notNil { _ in
                 fatalError("Negative not implemented")
             }
             cancel.notNil { action in

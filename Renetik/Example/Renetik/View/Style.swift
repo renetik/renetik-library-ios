@@ -9,9 +9,7 @@
 import Foundation
 
 class Style {
-    class func didFinishLaunchingWithOptions(_ delegate: ExampleAppDelegate) {
-    }
+    class func didFinishLaunchingWithOptions(_: ExampleAppDelegate) {}
 
-    class func controller(_ controller: ExampleListController) {
-    }
+    class func controller(_: ExampleListController) {}
 }

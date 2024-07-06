@@ -5,7 +5,6 @@
 import Foundation
 
 public class CSMenuHeader: CSObject {
-
     private let controller: CSMainController
 
     var items = [CSMenuItem]()
@@ -13,15 +12,16 @@ public class CSMenuHeader: CSObject {
     let title: String
 
     public init(by parent: CSMainController, index: Int, title: String) {
-        self.controller = parent
+        controller = parent
         self.index = index
         self.title = title
     }
 
     public func item(with title: String, type: UIBarButtonItem.SystemItem? = nil,
-                     image: UIImage? = nil, action: ((CSMenuItem) -> Void)? = nil) -> CSMenuItem {
+                     image: UIImage? = nil, action: ((CSMenuItem) -> Void)? = nil) -> CSMenuItem
+    {
         items.add(CSMenuItem(by: controller, title: title, systemItem: type, image: image, action: action))
-                .also { $0.index = items.size - 1 }
+            .also { $0.index = items.size - 1 }
     }
 
     public func item(with view: UIView, action: ((CSMenuItem) -> Void)? = nil) -> CSMenuItem {
@@ -29,7 +29,9 @@ public class CSMenuHeader: CSObject {
     }
 
     public var isVisible: Bool {
-        for item in items { if item.isVisible { return true } }
+        for item in items {
+            if item.isVisible { return true }
+        }
         return false
     }
 

@@ -9,7 +9,7 @@ public protocol CSHasStyle {
     func styledDark()
 }
 
-//TODO: get dark or light from delegate probably where it can be changed by code but default goes from system
+// TODO: get dark or light from delegate probably where it can be changed by code but default goes from system
 public extension CSHasStyle {
     @discardableResult
     func styled() -> Self {

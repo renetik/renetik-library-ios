@@ -2,12 +2,11 @@
 // Created by Rene Dohan on 12/19/19.
 //
 
-import UIKit
 import Renetik
 import RenetikObjc
+import UIKit
 
 open class CSViewController: UIViewController {
-
     public let eventOrientationChanging: CSEvent<Void> = event()
     public let eventOrientationChanged: CSEvent<Void> = event()
     public let eventDismissing: CSEvent<Void> = event()
@@ -44,7 +43,7 @@ open class CSViewController: UIViewController {
     @discardableResult
     open func construct(_ parent: UIViewController) -> Self {
         if let parent = parent as? CSViewController {
-            self.register(event: parent.eventDismissing.invokeOnce(listener: onViewDismissing))
+            register(event: parent.eventDismissing.invokeOnce(listener: onViewDismissing))
         }
         return self
     }
@@ -123,9 +122,8 @@ open class CSViewController: UIViewController {
 
     open func onViewDidAppearFirstTime() { eventDidAppearFirstTime.fire() }
 
-    //TODO: this is probably called also in different situations so has wrong name
-    open func onViewDidAppearFromPresentedController() {
-    }
+    // TODO: this is probably called also in different situations so has wrong name
+    open func onViewDidAppearFromPresentedController() {}
 
     override open func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -176,7 +174,7 @@ open class CSViewController: UIViewController {
         if isShowing { onViewShowing() } else { onViewHiding() }
     }
 
-    open func onViewVisibilityChanged(_ visible: Bool) {}
+    open func onViewVisibilityChanged(_: Bool) {}
 
     open func onViewShowing() {}
 
@@ -192,9 +190,9 @@ open class CSViewController: UIViewController {
         }
     }
 
-    open func onViewWillTransition(to size: CGSize, _ coordinator: UIViewControllerTransitionCoordinator) {}
+    open func onViewWillTransition(to _: CGSize, _: UIViewControllerTransitionCoordinator) {}
 
-    open func onViewDidTransition(to size: CGSize, _ context: UIViewControllerTransitionCoordinatorContext) {}
+    open func onViewDidTransition(to _: CGSize, _: UIViewControllerTransitionCoordinatorContext) {}
 
     public func observe(notification name: NSNotification.Name, callback: @escaping (Notification) -> Void) {
         notificationCenterObservers.add(NotificationCenter.add(observer: name, using: callback))
@@ -223,7 +221,7 @@ open class CSViewController: UIViewController {
         }
     }
 
-    open func onDisplayChangedTo(darkMode: Bool) {}
+    open func onDisplayChangedTo(darkMode _: Bool) {}
 
     public func layout(function: @escaping Func) {
         layoutFunctions.invoke(listener: function)

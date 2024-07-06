@@ -6,7 +6,7 @@ import Foundation
 import UIKit
 
 public extension UITextInput {
-    public var text: String {
+    var text: String {
         get {
             textRange(from: beginningOfDocument, to: endOfDocument)?.get { range in
                 text(in: range) ?? ""

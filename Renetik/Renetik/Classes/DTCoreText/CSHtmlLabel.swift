@@ -1,5 +1,5 @@
 //
-//  CSDTAttributeLabel.swift
+//  CSHtmlLabel.swift
 //  Motorkari
 //
 //  Created by Rene Dohan on 2/7/19.
@@ -9,14 +9,13 @@
 import ARChromeActivity
 import DTCoreText
 import DTCoreText.DTAttributedLabel
-import IDMPhotoBrowser
 import Renetik
 import TUSafariActivity
 import UIKit
 
 public class CSHtmlLabel: DTAttributedLabel,
-        DTAttributedTextContentViewDelegate, DTLazyImageViewDelegate {
-
+    DTAttributedTextContentViewDelegate, DTLazyImageViewDelegate
+{
     public var font = UIFont.preferredFont(forTextStyle: .body)
     public var textColor: UIColor = .darkText
     public var linkColor: UIColor = .blue
@@ -25,7 +24,7 @@ public class CSHtmlLabel: DTAttributedLabel,
     public var defaultLinkColor: UIColor = .blue
     public var linksActive = true
 
-    public override func construct() -> Self {
+    override public func construct() -> Self {
         super.construct()
         delegate = self
         backgroundColor = .clear
@@ -34,10 +33,11 @@ public class CSHtmlLabel: DTAttributedLabel,
 
     public var html = "" {
         didSet {
-            let corrected = html.addSizeToHtmlImageTags(self.width)
+            let corrected = html.addSizeToHtmlImageTags(width)
             attributedString = NSAttributedString(
-                    htmlData: corrected.data(using: encoding),
-                    options: attributedOptions, documentAttributes: nil)
+                htmlData: corrected.data(using: encoding),
+                options: attributedOptions, documentAttributes: nil
+            )
         }
     }
 
@@ -50,7 +50,7 @@ public class CSHtmlLabel: DTAttributedLabel,
             DTDefaultTextColor: textColor,
             DTDefaultLinkColor: linkColor,
             DTDefaultLinkHighlightColor: linkHighlightedColor,
-            DTDefaultLinkDecoration: false
+            DTDefaultLinkDecoration: false,
         ]
     }
 
@@ -92,22 +92,25 @@ public class CSHtmlLabel: DTAttributedLabel,
         return self
     }
 
-    public func attributedTextContentView(_
-                                          attributedTextContentView: DTAttributedTextContentView!,
-                                          viewForLink url: URL!, identifier: String!, frame: CGRect) -> UIView! {
+    public func attributedTextContentView(_:
+        DTAttributedTextContentView!,
+        viewForLink url: URL!, identifier _: String!, frame: CGRect) -> UIView!
+    {
         if !linksActive { return nil }
         return UIView.construct().frame(frame).also { view in
             view.onClick {
                 let controller = UIActivityViewController(
-                        activityItems: [url], applicationActivities: [TUSafariActivity(), ARChromeActivity()])
+                    activityItems: [url], applicationActivities: [TUSafariActivity(), ARChromeActivity()]
+                )
                 controller.popoverPresentationController?.sourceView = view
                 navigation.last!.present(controller, animated: true, completion: nil)
             }
         }
     }
 
-    public func attributedTextContentView(_ contentView: DTAttributedTextContentView!,
-                                          viewFor attachment: DTTextAttachment!, frame: CGRect) -> UIView! {
+    public func attributedTextContentView(_: DTAttributedTextContentView!,
+                                          viewFor attachment: DTTextAttachment!, frame: CGRect) -> UIView!
+    {
         if attachment is DTImageTextAttachment {
             let imageView = DTLazyImageView(frame: frame)
             imageView.contentMode = .scaleAspectFit
@@ -119,14 +122,16 @@ public class CSHtmlLabel: DTAttributedLabel,
     }
 
     public func lazyImageView(_ lazyImageView: DTLazyImageView,
-                              didChangeImageSize: CGSize) {
+                              didChangeImageSize: CGSize)
+    {
         for attachment in layoutFrame.textAttachments() {
             let textAttachment = (attachment as! DTTextAttachment)
             if textAttachment.contentURL.absoluteString ==
-                       lazyImageView.url.absoluteString {
+                lazyImageView.url.absoluteString
+            {
                 textAttachment.displaySize =
-                        CGSize(width: didChangeImageSize.width + 10,
-                                height: didChangeImageSize.height)
+                    CGSize(width: didChangeImageSize.width + 10,
+                           height: didChangeImageSize.height)
                 textAttachment.verticalAlignment = .center
             }
         }

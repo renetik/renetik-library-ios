@@ -5,7 +5,6 @@
 import UIKit
 
 public extension UINavigationController {
-
     @discardableResult
     func popViewController() -> UIViewController? {
         popViewController(animated: true)
@@ -59,8 +58,8 @@ public extension UINavigationController {
         let transition = CATransition()
         transition.duration = 0.5
         transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        transition.type = .moveIn //kCATransitionMoveIn; //, kCATransitionPush, kCATransitionReveal, kCATransitionFade
-        transition.subtype = .fromBottom //kCATransitionFromLeft, kCATransitionFromRight, kCATransitionFromTop, kCATransitionFromBottom
+        transition.type = .moveIn // kCATransitionMoveIn; //, kCATransitionPush, kCATransitionReveal, kCATransitionFade
+        transition.subtype = .fromBottom // kCATransitionFromLeft, kCATransitionFromRight, kCATransitionFromTop, kCATransitionFromBottom
         view.layer.add(transition, forKey: nil)
         pushViewController(controller, animated: false)
         return controller
@@ -90,7 +89,6 @@ public extension UINavigationController {
     }
 
     func push(_ pushId: String, _ pushingController: UIViewController) {
-
         pushingController.propertyDictionary()["PushID"] = pushId
 
         var toRemove = [UIViewController]()
@@ -106,5 +104,4 @@ public extension UINavigationController {
         }
         push(pushingController)
     }
-
 }

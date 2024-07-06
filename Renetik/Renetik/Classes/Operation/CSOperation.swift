@@ -11,7 +11,6 @@ public protocol CSOperationProtocol {
 }
 
 public class CSOperation<Data>: CSAny, CSOperationProtocol {
-
     public let title: String
     public var data: Data?
     private let executeProcessFunction: (CSOperation<Data>) -> CSProcess<Data>
@@ -59,7 +58,7 @@ public class CSOperation<Data>: CSAny, CSOperationProtocol {
     public var isLoading: Bool { process?.isDone == false }
 
     @discardableResult
-    public func refresh(_ value: Bool = true) -> Self { invoke { isRefresh = true } }
+    public func refresh(_: Bool = true) -> Self { invoke { isRefresh = true } }
 
     @discardableResult
     public func expire(minutes: Int?) -> Self { invoke { expireMinutes = minutes } }
@@ -89,9 +88,8 @@ public class CSOperation<Data>: CSAny, CSOperationProtocol {
     }
 
     public func failed(process: CSProcessProtocol) {
-        self.eventFailed.fire(process)
-        self.eventDone.fire(self.process?.data)
+        eventFailed.fire(process)
+        eventDone.fire(self.process?.data)
         self.process = nil
     }
-
 }

@@ -5,7 +5,6 @@
 import UIKit
 
 open class CSView: UIView {
-
     public let layoutFunctions: CSEvent<Void> = event()
     public let eventLayoutSubviewsFirstTime: CSEvent<Void> = event()
 
