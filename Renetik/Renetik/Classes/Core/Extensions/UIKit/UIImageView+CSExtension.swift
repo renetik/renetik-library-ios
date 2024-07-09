@@ -19,7 +19,7 @@ public extension UIImageView {
     }
 
     @discardableResult
-    func image(_ image: UIImage) -> Self { invoke { self.image = image } }
+    func image(_ image: UIImage?) -> Self { invoke { self.image = image } }
 
     @discardableResult
     func image(template image: UIImage) -> Self { self.image(image.template) }
