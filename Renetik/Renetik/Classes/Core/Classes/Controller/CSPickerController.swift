@@ -13,7 +13,7 @@ public class CSPickerController: CSViewController, CSHasPickerVisible, UIPickerV
     public var toolBarItemTextColor: UIColor?
     public var pickerColor: UIColor = .white
     public var pickerItemTextColor: UIColor = .darkText
-    public var pickerItemFont: UIFont?
+    public var pickerItemFont: UIFont = .preferredFont(forTextStyle: .body)
 
     var items: [CustomStringConvertible]!
     var onDone: ((Int) -> Void)!
