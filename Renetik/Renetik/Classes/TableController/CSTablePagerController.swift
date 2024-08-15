@@ -71,7 +71,7 @@ public class CSTablePagerController<Row: CSTableControllerRow, Data>: NSObject {
     }
 
     private func createLoadNextView() -> UIView {
-        UIActivityIndicatorView(style: .whiteLarge).also { view in
+        UIActivityIndicatorView(style: .large).also { view in
             loadNextColor.notNil { view.color = $0 }
             view.startAnimating()
             self.loadNextView = view
