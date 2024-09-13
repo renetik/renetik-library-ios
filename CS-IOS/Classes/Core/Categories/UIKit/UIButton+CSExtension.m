@@ -31,6 +31,9 @@
 
 - (instancetype)setTitle:(NSString *)title {
     [self setTitle:title forState:UIControlStateNormal];
+    [self setTitle:title forState:UIControlStateHighlighted];
+    [self setTitle:title forState:UIControlStateDisabled];
+    [self setTitle:title forState:UIControlStateSelected];
     return self;
 }
 
