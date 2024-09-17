@@ -14,7 +14,7 @@
 
 - (void)setTitleColor:(UIColor *)color;
 
-- (instancetype)setTitle:(NSString *)title;
+- (instancetype)setText:(NSString *)title;
 
 - (NSString *)title;
 

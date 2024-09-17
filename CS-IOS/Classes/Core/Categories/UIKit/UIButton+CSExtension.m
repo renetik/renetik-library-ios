@@ -29,7 +29,7 @@
     [self setTitleColor:color forState:UIControlStateSelected];
 }
 
-- (instancetype)setTitle:(NSString *)title {
+- (instancetype)setText:(NSString *)title {
     [self setTitle:title forState:UIControlStateNormal];
     [self setTitle:title forState:UIControlStateHighlighted];
     [self setTitle:title forState:UIControlStateDisabled];
