@@ -37,7 +37,7 @@
     return self;
 }
 
-- (NSString *)title {
+- (NSString *)text {
     return [self titleForState:UIControlStateNormal];
 }
 

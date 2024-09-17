@@ -16,7 +16,7 @@
 
 - (instancetype)setText:(NSString *)title;
 
-- (NSString *)title;
+- (NSString *)text;
 
 - (void)setImage:(UIImage *)image;
 
