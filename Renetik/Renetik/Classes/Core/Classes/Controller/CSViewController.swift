@@ -141,7 +141,7 @@ open class CSViewController: UIViewController {
         isAppearing = false
         onViewDidDisappear()
         if let controllerInNavigation = controllerInNavigation {
-            if isMovingFromParent == true && controllerInNavigation.parent == nil {
+            if  isBeingDismissed || !navigation.viewControllers.contains(controllerInNavigation) {
                 onViewDismissing()
             } else if navigation.previous == controllerInNavigation {
                 onViewPushedOver()
