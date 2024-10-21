@@ -49,6 +49,10 @@ public class CSImagePickerController: NSObject, UIPopoverControllerDelegate,
             picker!.allowsEditing = true
             picker!.sourceType = .camera
             picker!.present(from: element)
+// Present from root
+//            if let rootVC = UIApplication.shared.windows.first?.rootViewController {
+//                rootVC.present(picker!, animated: true, completion: nil)
+//            }
         } else {
             parent.show(message: "Camera not available")
         }
