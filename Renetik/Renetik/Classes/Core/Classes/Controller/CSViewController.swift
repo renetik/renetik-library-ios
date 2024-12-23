@@ -136,15 +136,16 @@ open class CSViewController: UIViewController {
 
     override open func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-//        logInfo("viewDidDisappear \(self) controllerInNavigation:\(controllerInNavigation) isAppearing:\(isAppearing) isShowing:\(isShowing)")
         if !isAppearing { return }
         isAppearing = false
         onViewDidDisappear()
-        if let controllerInNavigation = controllerInNavigation {
-            if  isBeingDismissed || !navigation.viewControllers.contains(controllerInNavigation) {
-                onViewDismissing()
-            } else if navigation.previous == controllerInNavigation {
-                onViewPushedOver()
+        if parent == nil { onViewDismissing() } else {
+            if let controllerInNavigation = controllerInNavigation {
+                if isMovingFromParent == true && controllerInNavigation.parent == nil {
+                    onViewDismissing()
+                } else if navigation.previous == controllerInNavigation {
+                    onViewPushedOver()
+                }
             }
         }
     }
