@@ -13,11 +13,12 @@ public protocol CSResponseController {
 
 public extension CSResponseController {
     @discardableResult
-    func show<Data: AnyObject>(_ response: CSResponse<Data>, title: String = CSStrings.requestLoading,
+    func show<Data: AnyObject>(_ response: CSResponse<Data>,
+                               title: String = CSStrings.requestLoading,
                                progress: Bool = true, canCancel: Bool = true,
                                failedDialog: Bool = true,
-                               onSuccess: ((Data) -> Void)? = nil) -> CSResponse<Data>
-    {
+                               onSuccess: ((Data) -> Void)? = nil
+    ) -> CSResponse<Data> {
         show(response, title, progress, canCancel, failedDialog, onSuccess)
     }
 }

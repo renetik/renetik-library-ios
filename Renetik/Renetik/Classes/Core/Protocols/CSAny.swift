@@ -40,7 +40,9 @@ public extension CSAny {
 
     // let in kotlin
     func get<ReturnType>(_ function: (Self) -> ReturnType) -> ReturnType { function(self) }
-
+    func getAsync<ReturnType>(_ function: @escaping (Self) async -> ReturnType) async -> ReturnType {
+        return await function(self)
+    }
     var asString: String { "\(self)" }
 
 //    public var description: String { "\(type(of: self))" }
