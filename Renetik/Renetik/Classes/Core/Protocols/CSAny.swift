@@ -43,6 +43,23 @@ public extension CSAny {
     func getAsync<ReturnType>(_ function: @escaping (Self) async -> ReturnType) async -> ReturnType {
         return await function(self)
     }
+    
+    public func convert<ReturnType>(_ function: @escaping (Self) -> ReturnType) async -> ReturnType {
+        return function(self)
+    }
+    
+    public func convertIf<ReturnType>(
+        _ condition: (Self) -> Bool, _ function: @escaping (Self) -> ReturnType
+    )  -> ReturnType? {
+         if condition(self){ return function(self) } else { return nil }
+    }
+    
+    public func convertIfAsync<ReturnType>(
+        _ condition: (Self) -> Bool, _ function: @escaping (Self) async -> ReturnType
+    ) async -> ReturnType? {
+        if condition(self){ return await function(self) } else { return nil }
+    }
+    
     var asString: String { "\(self)" }
 
 //    public var description: String { "\(type(of: self))" }
