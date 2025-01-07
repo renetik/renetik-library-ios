@@ -12,7 +12,7 @@ import RenetikObjc
 open class CSAFClient: CSObject {
     public let url: String
     public let manager: AFHTTPSessionManager
-    var defaultParams: [String: String] = [:]
+    var defaultParams: [(String, String)] = []
     public var requestFailMessage = "Request failed"
     public var requestCancelMessage = "Request cancelled"
 
@@ -34,8 +34,8 @@ open class CSAFClient: CSObject {
         manager.securityPolicy = policy
     }
 
-    public func addDefault(params: [String: String]) {
-        defaultParams.add(params)
+    public func addDefault(params: [(String, String)]) {
+        defaultParams.add(array: params)
     }
 
     public func clearDefaultParams() {
@@ -50,10 +50,17 @@ open class CSAFClient: CSObject {
         manager.requestSerializer
             .setAuthorizationHeaderFieldWithUsername(username, password: password)
     }
+    
+    open func get<Data: CSServerData>(
+        service: String, data: Data,
+        params: [String: Any?]
+    ) -> CSResponse<Data> {
+        return get(service:service, data:data, params:params.map{($0,$1)})
+    }
 
     open func get<Data: CSServerData>(
         service: String, data: Data,
-        params: [String: Any?] = [:]
+        params: [(String, Any?)] = []
     ) -> CSResponse<Data> {
         let request = CSResponse(url, service, data, createParams(params))
         request.requestCancelledMessage = requestCancelMessage
@@ -67,16 +74,19 @@ open class CSAFClient: CSObject {
 
     open func post<Data: CSServerData>(
         service: String, data: Data,
-        params: [String: String] = [:],
+        params: [(String, Any?)] = [],
         form: @escaping (AFMultipartFormData) -> Void
     ) -> CSResponse<Data> {
-        let request = CSResponse(url, service, data, createParams(params))
+        let completeParams = createParams(params)
+        let request = CSResponse(url, service, data, completeParams)
         request.requestCancelledMessage = requestCancelMessage
         request.type = .post
         request.form = form
         let response = CSAFResponse(self, request)
-//        execute(request, response)
-        manager.post(service, parameters: request.params, headers: nil, constructingBodyWith: form,
+        let queryString = buildQueryString(from: completeParams)
+        let urlWithQuery = service + "?" + queryString
+        manager.post(urlWithQuery, parameters: nil,
+                     headers: nil, constructingBodyWith: form,
                      progress: response.onProgress, success: response.onSuccess,
                      failure: response.onFailure)
         return request
@@ -84,7 +94,7 @@ open class CSAFClient: CSObject {
 
     open func post<Data: CSServerData>(
         service: String, data: Data,
-        params: [String: String?] = [:]
+        params: [(String, Any?)] = []
     ) -> CSResponse<Data> {
         let request = CSResponse(url, service, data, createParams(params))
         request.requestCancelledMessage = requestCancelMessage
@@ -94,32 +104,51 @@ open class CSAFClient: CSObject {
         return request
     }
 
-    private func createParams(_ params: [String: Any?]) -> [String: Any?] {
-        var newParams: [String: Any?] = ["version": "IOS \(Bundle.shortVersion) \(Bundle.build)"]
-        newParams.add(defaultParams)
-        newParams.add(params)
+    private func createParams(_ params: [(String, Any?)]) -> [(String, Any?)] {
+        var newParams: [(String, Any?)] = [
+            ("version", "IOS \(Bundle.shortVersion) \(Bundle.build)")
+        ]
+        newParams.add(array: defaultParams)
+        newParams.add(array: params)
         return newParams
     }
 
     func execute<Data: CSServerData>(
         _ request: CSResponse<Data>, _ response: CSAFResponse<Data>
     ) {
+        let queryString = buildQueryString(from: request.params)
+        let urlWithQuery = request.service + "?" + queryString
         if request.type == .get {
-            manager.get(request.service, parameters: request.params, headers: nil,
+            manager.get(urlWithQuery, parameters:nil, headers: nil,
                         progress: response.onProgress, success: response.onSuccess,
                         failure: response.onFailure)
         } else {
             if request.form.notNil {
-                manager.post(request.service, parameters: request.params, headers: nil,
+                manager.post(urlWithQuery, parameters: nil, headers: nil,
                              constructingBodyWith: request.form!, progress: response.onProgress,
                              success: response.onSuccess, failure: response.onFailure)
             } else {
-                manager.post(request.service, parameters: request.params, headers: nil,
+                manager.post(urlWithQuery, parameters: nil, headers: nil,
                              progress: response.onProgress, success: response.onSuccess,
                              failure: response.onFailure)
             }
         }
     }
+}
+
+func buildQueryString(from params: [(String, Any?)]) -> String {
+    var queryString = ""
+    for (key, value) in params {
+        if let value = value {
+            // Ensure that value is a string or convert it to a string if it's not nil
+            queryString += "\(key)=\(value)&"
+        }
+    }
+    // Remove trailing '&' if any
+    if queryString.hasSuffix("&") {
+        queryString = String(queryString.dropLast())
+    }
+    return queryString
 }
 
 public extension AFMultipartFormData {
@@ -130,6 +159,13 @@ public extension AFMultipartFormData {
         }
     }
 
+    func appendUTF8(parts: [(String, Any?)]) {
+        var partsArray = [String: Any?]()
+        parts.forEach { key, value in partsArray[key] = value }
+        appendUTF8(parts: partsArray)
+    }
+
+    
     func appendUTF8(parts: [String: Any?]) {
         logInfo(parts.asJson?.substring(to: 100))
         for (key, value) in parts {

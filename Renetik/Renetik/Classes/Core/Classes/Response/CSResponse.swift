@@ -29,7 +29,7 @@ public class CSResponse<Data: AnyObject>: NSObject, CSResponseProtocol {
     var content: String?
     private var _message: String?
     var requestCancelledMessage = "Request cancelled."
-    var params: [AnyHashable: Any] = [:]
+    var params: [(String, Any)] = []
     var post: [AnyHashable: Any] = [:]
     var forceReload = false
     var fromCacheIfPossible = false
@@ -45,7 +45,8 @@ public class CSResponse<Data: AnyObject>: NSObject, CSResponseProtocol {
     private var id = ""
     private var failedResponse: CSResponseProtocol?
     
-    public convenience init(_ url: String, _ service: String, _ data: Data, _ params: [AnyHashable: Any]) {
+    public convenience init(_ url: String, _ service: String,
+                            _ data: Data, _ params: [(String, Any)]) {
         self.init()
         self.url = url
         self.service = service
