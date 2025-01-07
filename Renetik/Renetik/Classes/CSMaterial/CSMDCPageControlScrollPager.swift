@@ -1,8 +1,3 @@
-//
-// Created by Rene Dohan on 12/14/19.
-// Copyright (c) 2019 Renetik Software. All rights reserved.
-//
-
 import BlocksKit
 import MaterialComponents
 import MaterialComponents.MDCPageControl
@@ -18,12 +13,10 @@ open class CSMDCPageControlScrollPager: CSMainController, UIScrollViewDelegate {
     var currentPage = 0
 
     public func construct(_ parent: CSMainController, _ pageControl: MDCPageControl, _ scrollView: UIScrollView,
-                          _ count: Int, _ createScrollViewContent: @escaping () -> UIView)
+        _ createScrollViewContent: @escaping () -> UIView) -> Self
     {
         super.constructAsViewLess(in: parent)
         self.pageControl = pageControl
-        pageControl.numberOfPages = count
-        pageControl.alpha = count > 1 ? 1 : 0 // BUG! hide/visible not works for MDCPageControl BUG!
         self.scrollView = scrollView
         scrollView.delegate = self
         scrollView.isPagingEnabled = true
@@ -31,6 +24,14 @@ open class CSMDCPageControlScrollPager: CSMainController, UIScrollViewDelegate {
             self.showPage(at: self.pageControl.currentPage)
         }, for: .valueChanged)
         self.createScrollViewContent = createScrollViewContent
+        return self
+    }
+    
+    public func reload(count:Int){
+        pageControl.numberOfPages = count
+        // BUG! hide/visible not works for MDCPageControl BUG!
+        pageControl.alpha = count > 1 ? 1 : 0
+        if isVisible { animate { self.createContentView(animated: false) } }
     }
 
     override open func onViewWillAppear() { createContentView() }

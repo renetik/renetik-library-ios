@@ -60,7 +60,8 @@ public class CSLabeledView: UIView {
 
 public extension UIView {
     func addField(title: String? = nil, text: String? = nil,
-                  detect dataTypes: UIDataDetectorTypes? = nil, onClick: Func? = nil)
+                  detect dataTypes: UIDataDetectorTypes? = nil, 
+                  onClick: Func? = nil)
     {
         CSLabeledText().construct(self, title, text, dataTypes, onClick)
     }
