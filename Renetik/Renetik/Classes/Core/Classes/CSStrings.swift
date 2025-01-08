@@ -4,7 +4,7 @@
 
 import Foundation
 
-public class CSStrings {
+extension String {
     public static let dialogYes = localized("renetik_dialog_yes")
     public static let dialogNo = localized("renetik_dialog_no")
     public static let dialogCancel = localized("renetik_dialog_cancel")

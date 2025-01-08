@@ -97,7 +97,7 @@ public class CSProcess<Data>: CSAny, CSProcessProtocol {
     public func failed(_ error: Error?, message: String? = nil) {
         if isCanceled { return }
         self.error = error
-        self.message = message ?? error?.localizedDescription ?? CSStrings.operationFailed
+        self.message = message ?? error?.localizedDescription ?? .operationFailed
         failed(self)
     }
 
@@ -117,7 +117,7 @@ public class CSProcess<Data>: CSAny, CSProcessProtocol {
             "isSuccess \(isSuccess) isFailed \(isFailed)")
         if isCanceled || isDone || isSuccess || isFailed { return }
         isCanceled = true
-        message = CSStrings.operationCancelled
+        message = .operationCancelled
         eventCancel.fire(self)
         onDoneImpl()
     }

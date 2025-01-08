@@ -11,6 +11,6 @@ public protocol CSHasProgress {
 public extension CSHasProgress {
     func show(progress title: String, onCancel: Func? = nil) -> CSHasDialogVisible {
         show(progress: title, cancel: onCancel.notNil ?
-            CSDialogAction(title: CSStrings.dialogCancel, action: onCancel!) : nil)
+            CSDialogAction(title: .dialogCancel, action: onCancel!) : nil)
     }
 }

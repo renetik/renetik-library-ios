@@ -58,7 +58,7 @@ public class CSTablePagerController<Row: CSTableControllerRow, Data>: NSObject {
         table.isLoading = true
         showLoadNextIndicator()
         onLoadPage(pageIndex).send().onFailed { _ in
-            self.table.parentController.toast(CSStrings.tableLoadNextFailed)
+            self.table.parentController.toast(.tableLoadNextFailed)
         }.onDone { _ in
             self.table.isLoading = false
             self.loadNextView?.removeFromSuperview()

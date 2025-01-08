@@ -37,7 +37,7 @@ public protocol CSHasDialog {
 public extension CSHasDialog {
     @discardableResult
     func show(message: String,
-              positiveTitle: String = CSStrings.dialogYes,
+              positiveTitle: String = .dialogYes,
               onPositive: Func? = nil,
               onCanceled: Func? = nil,
               canCancel: Bool = true) -> CSHasDialogVisible
@@ -49,7 +49,7 @@ public extension CSHasDialog {
 
     @discardableResult
     func show(message: String, onPositive: Func? = nil) -> CSHasDialogVisible {
-        show(message: message, positiveTitle: CSStrings.dialogYes, onPositive: onPositive)
+        show(message: message, positiveTitle: .dialogYes, onPositive: onPositive)
     }
 
     @discardableResult

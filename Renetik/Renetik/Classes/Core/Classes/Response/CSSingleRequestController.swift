@@ -8,9 +8,9 @@ import RenetikObjc
 import UIKit
 
 public class CSSingleRequestController<Data: AnyObject>: CSMainController {
-    public var stringRequestLoading = CSStrings.requestLoading
-    public var stringRequestFailed = CSStrings.requestFailed
-    public var stringRequestRetry = CSStrings.requestRetry
+    public var stringRequestLoading = String.requestLoading
+    public var stringRequestFailed = String.requestFailed
+    public var stringRequestRetry = String.requestRetry
 
     private var reloadResponse: CSResponse<Data>?
     private var data: Data?

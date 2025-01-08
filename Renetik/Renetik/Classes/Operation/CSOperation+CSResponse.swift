@@ -12,7 +12,7 @@ public extension CSOperation where Data: AnyObject {
             response.force(operation.isRefresh)
             let process = CSProcess(response.data)
             response.onSuccess { data in process.success(data) }
-            response.onFailed { it in process.failed(it.message ?? CSStrings.requestFailed) }
+            response.onFailed { it in process.failed(it.message ?? .requestFailed) }
             return process
         })
     }
