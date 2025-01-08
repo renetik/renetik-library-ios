@@ -189,9 +189,6 @@ public class CSResult<Value> {
     public let value: Value?
     public var throwable: Error?
     public var message: String?
-    
-    
-    
     public var isSuccess: Bool { state == .success }
     public var failureMessage: String {
         "\(throwable.asString) \(message.asString)"
@@ -218,7 +215,7 @@ public class CSResult<Value> {
     }
     
     @discardableResult
-    public  func ifSuccess(dispatcher: DispatchQueue, function: @escaping (Value) async throws -> Void) async -> CSResult {
+    public func ifSuccess(dispatcher: DispatchQueue, function: @escaping (Value) async throws -> Void) async -> CSResult {
         if state == .success, let value = value {
             dispatcher.async {
                 Task {
