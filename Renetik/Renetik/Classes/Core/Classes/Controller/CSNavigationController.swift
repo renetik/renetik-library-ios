@@ -13,7 +13,8 @@ public enum CSForcedOrientation: Int {
 
 open class CSNavigationController: UINavigationController, UINavigationBarDelegate {
     private(set) var instance: CSNavigationController!
-    private(set) var lastPopped: UIViewController?
+    public private(set) var lastPopped: UIViewController?
+    public private(set) var lastPushed: UIViewController?
     private var navigationBarDelegate: UINavigationBarDelegate?
 
     public func construct() -> Self { self }
@@ -33,11 +34,18 @@ open class CSNavigationController: UINavigationController, UINavigationBarDelega
     }
 
     override open func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        lastPushed = viewController
         lastPopped = nil
         super.pushViewController(viewController, animated: animated)
     }
+    
+    override open func setViewControllers(_ viewControllers: [UIViewController], animated: Bool){
+        lastPushed = viewControllers.last
+        super.setViewControllers(viewControllers, animated:animated)
+    }
 
     override open func push(asRoot newRoot: UIViewController!) {
+        lastPushed = newRoot
         lastPopped = nil
         super.push(asRoot: newRoot)
     }

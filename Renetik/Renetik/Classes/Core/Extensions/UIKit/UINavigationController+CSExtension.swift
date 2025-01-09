@@ -7,7 +7,8 @@ import UIKit
 public extension UINavigationController {
     @discardableResult
     func popViewController() -> UIViewController? {
-        popViewController(animated: true)
+        (self as? CSNavigationController)?.popViewController(animated: true)
+        ?? popViewController(animated: true)
     }
 
     var last: UIViewController? {
@@ -27,41 +28,27 @@ public extension UINavigationController {
     }
 
     @objc func push(asRoot newRoot: UIViewController) {
-        setViewControllers([newRoot], animated: true)
+        (self as? CSNavigationController)?.setViewControllers([newRoot], animated: true)
+        ?? setViewControllers([newRoot], animated: true)
     }
-
+    
     @discardableResult
     func push(_ controller: UIViewController) -> UIViewController {
-        pushViewController(controller, animated: true)
+        (self as? CSNavigationController)?.pushViewController(controller, animated: true)
+        ?? pushViewController(controller, animated: true)
         return controller
     }
-
-//    @discardableResult
-//    func pop(_ controllerToPop: UIViewController) -> UIViewController {
-//        if !viewControllers.contains(controllerToPop) {
-//            NSException(name: "Controller is not pushed so cannot be popped").raise()
-//        }
-//        var toRemove = [UIViewController]()
-//        for pushedController in viewControllers {
-//            toRemove.add(pushedController)
-//            if pushedController == controllerToPop {
-//                var viewControllers = self.viewControllers
-//                viewControllers.remove(toRemove)
-//                setViewControllers(viewControllers, animated: true)
-//            }
-//        }
-//
-//    }
 
     @discardableResult
     func push(fromTop controller: UIViewController) -> UIViewController {
         let transition = CATransition()
         transition.duration = 0.5
         transition.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        transition.type = .moveIn // kCATransitionMoveIn; //, kCATransitionPush, kCATransitionReveal, kCATransitionFade
-        transition.subtype = .fromBottom // kCATransitionFromLeft, kCATransitionFromRight, kCATransitionFromTop, kCATransitionFromBottom
+        transition.type = .moveIn
+        transition.subtype = .fromBottom
         view.layer.add(transition, forKey: nil)
-        pushViewController(controller, animated: false)
+        (self as? CSNavigationController)?.pushViewController(controller, animated: false)
+        ?? pushViewController(controller, animated: false)
         return controller
     }
 
@@ -73,10 +60,11 @@ public extension UINavigationController {
                 if count > 0 { count -= 1 } else { toRemove.add(controller) }
             }
         }
-        var viewControllers = self.viewControllers
+        var viewControllers: [UIViewController] = self.viewControllers
         toRemove.each { viewControllers.remove($0) }
         viewControllers.add(pushingController)
-        setViewControllers(viewControllers, animated: true)
+        (self as? CSNavigationController)?.setViewControllers(viewControllers, animated: true)
+        ?? setViewControllers(viewControllers, animated: true)
     }
 
     func contains<T: UIViewController>(controllerType: T.Type) -> Bool {
@@ -98,10 +86,13 @@ public extension UINavigationController {
                 var viewControllers = self.viewControllers
                 toRemove.each { viewControllers.remove($0) }
                 viewControllers.add(pushingController)
-                setViewControllers(viewControllers, animated: true)
+                (self as? CSNavigationController)?
+                    .setViewControllers(viewControllers, animated: true)
+                ?? setViewControllers(viewControllers, animated: true)
                 return
             }
         }
         push(pushingController)
     }
 }
+
