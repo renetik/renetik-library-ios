@@ -215,6 +215,18 @@ public class CSResult<Value> {
     }
     
     @discardableResult
+    public func ifSuccess(_ function: @escaping () async throws -> Void) async -> CSResult {
+        if state == .success, let value = value {
+            do {
+                try await function()
+            } catch {
+                throwable = error
+            }
+        }
+        return self
+    }
+    
+    @discardableResult
     public func ifSuccess(dispatcher: DispatchQueue, function: @escaping (Value) async throws -> Void) async -> CSResult {
         if state == .success, let value = value {
             dispatcher.async {
@@ -265,6 +277,14 @@ public class CSResult<Value> {
     public  func ifFailure(_ function: @escaping (CSResult) -> Void) async -> CSResult {
         if state == .failure {
             function(self)
+        }
+        return self
+    }
+    
+    @discardableResult
+    public  func ifFailure(_ function: @escaping () -> Void) async -> CSResult {
+        if state == .failure {
+            function()
         }
         return self
     }
