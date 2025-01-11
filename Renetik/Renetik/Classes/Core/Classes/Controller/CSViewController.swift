@@ -188,6 +188,7 @@ open class CSViewController: UIViewController {
         coordinator.onCompletion { context in
             self.onViewDidTransition(to: size, context)
             self.eventOrientationChanged.fire()
+            self.runLayoutFunctions()
         }
     }
 

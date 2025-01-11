@@ -1,13 +1,5 @@
-//
-//  CSNavigationHidingController.swift
-//  Renetik
-//
-//  Created by Rene Dohan on 7/3/19.
-//
-
 import RenetikObjc
 
-// TODO: Make standalone library !!!
 public class CSNavigationHidingController: CSMainController {
     private var isNavigationBarHidden = false
     private var shouldShow = false
