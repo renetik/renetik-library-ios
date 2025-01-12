@@ -17,12 +17,16 @@ open class CSLabeledText: UIView {
         super.construct().width(200, height: 30)
         addLabel(title: title)
         addTextView(value: value)
+        textView.textContainer.lineBreakMode = .byTruncatingHead
+        textView.textContainerInset = .zero
+        textView.contentInset = .zero
+        textView.scrollRangeToVisible(
+            NSMakeRange(textView.text.count - 1, 0))
         dataTypes.notNil { textView.detectData($0) }
-        onClick.notNil {
-            textView.onClick($0)
-            self.onClick($0)
-        }
-        (container.content ?? container).add(view: self).fromPrevious(top: 0).matchParentWidth()
+        self.onClick = onClick
+        onClick.notNil { textView.onClick($0) }
+        (container.content ?? container).add(view: self)
+            .fromPrevious(top: 0).matchParentWidth()
         return self
     }
 

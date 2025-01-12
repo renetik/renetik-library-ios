@@ -26,7 +26,10 @@ open class CSNavigationController: UINavigationController, UINavigationBarDelega
     }
 
     @discardableResult
-    open func pop() -> UIViewController? { super.popViewController(animated: true) }
+    open func pop() -> UIViewController? {
+        lastPopped = last
+        return super.popViewController(animated: true)
+    }
 
     override open func popViewController(animated: Bool) -> UIViewController? {
         lastPopped = last
