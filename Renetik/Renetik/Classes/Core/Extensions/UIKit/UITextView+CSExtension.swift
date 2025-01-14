@@ -103,12 +103,17 @@ public extension UITextView {
     }
     
     func centerTextVertical() -> Self {
-        let textHeight = heightThatFits()
-        let topInset = (height - textHeight) / 2
-        textContainerInset = UIEdgeInsets(top: topInset)
-        return self
+           let contentHeight = layoutManager.usedRect(for: textContainer).height
+           let totalHeight = bounds.height
+           if contentHeight < totalHeight {
+               let topInset = (totalHeight - contentHeight) / 2
+               textContainerInset = UIEdgeInsets(top: topInset, left: 0, bottom: 0, right: 0)
+           } else {
+               textContainerInset = .zero
+           }
+           return self
     }
-
+    
     // TODO: text(align:
     @discardableResult
     func alignText(_ alignment: NSTextAlignment) -> Self { invoke { self.textAlignment = alignment } }

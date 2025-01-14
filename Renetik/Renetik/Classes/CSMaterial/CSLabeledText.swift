@@ -17,15 +17,15 @@ open class CSLabeledText: UIView {
         super.construct().width(200, height: 35)
         addLabel(title: title)
         addTextView(value: value)
-//        textView.textContainer.lineBreakMode = .byTruncatingHead
-//        textView.scrollRangeToVisible(
-//            NSMakeRange(textView.text.count - 1, 0))
+        textView.textContainer.lineBreakMode = .byTruncatingHead
+        textView.scrollRangeToVisible(
+            NSMakeRange(textView.text.count - 1, 0))
         dataTypes.notNil { textView.detectData($0) }
         self.onClick = onClick
         onClick.notNil { textView.onClick($0) }
         (container.content ?? container).add(view: self)
             .fromPrevious(top: 0).matchParentWidth()
-        debugLayoutBySubviewsRandomBorderColor()
+//        debugLayoutBySubviewsRandomBorderColor()
         return self
     }
 
