@@ -61,6 +61,15 @@ public func later(seconds: Double, function: @escaping Func) {
     DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: function)
 }
 
+extension NSObjectProtocol {
+    func launch(on queue: DispatchQueue = .main, execute work: @escaping (Self) -> Void) {
+        queue.async { [weak self] in
+            guard let self = self else { return }
+            work(self)
+        }
+    }
+}
+
 private let userInitiatedQueue = DispatchQueue(label: "CSUserInitiatedQueue", qos: .userInitiated)
 
 private let utilityQueue = DispatchQueue(label: "CSUtilityQueue", qos: .utility)

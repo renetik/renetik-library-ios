@@ -90,6 +90,7 @@ public extension UITextView {
 
     @discardableResult
     func asLabel() -> Self {
+        textAlignment = .left
         textContainerInset = .zero
         contentInset = .zero
         isEditable = false
@@ -98,6 +99,13 @@ public extension UITextView {
         contentInsetAdjustmentBehavior = .never
         textContainer.lineFragmentPadding = 0
         layoutManager.usesFontLeading = false
+        return self
+    }
+    
+    func centerTextVertical() -> Self {
+        let textHeight = heightThatFits()
+        let topInset = (height - textHeight) / 2
+        textContainerInset = UIEdgeInsets(top: topInset)
         return self
     }
 
